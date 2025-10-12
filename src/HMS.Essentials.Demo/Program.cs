@@ -1,4 +1,5 @@
 ﻿using HMS.Essential.Logging;
+using HMS.Essentials;
 using HMS.Essentials.Modularity;
 using HMS.Essentials.Data;
 using Microsoft.Extensions.Configuration;
@@ -15,11 +16,11 @@ var configuration = new ConfigurationBuilder()
 // Create service collection
 var services = new ServiceCollection();
 
-// Build the application with modules
+// Build the application with the root module
+// Only specify the top-level module - dependencies are loaded automatically
 var app = new ApplicationBuilder(services, configuration)
     .WithEnvironment("Development")
-    .AddModule<LoggingEssentialsModule>()
-    .AddModule<EssentialsDataModule>()
+    .UseRootModule<EssentialsDemoModule>()
     .ConfigureServices((svc, cfg) =>
     {
         Console.WriteLine("[Application] Configuring additional services...");

@@ -15,6 +15,7 @@ public sealed class ApplicationBuilder
     private readonly ModuleLifecycleManager _lifecycleManager;
     private readonly ModuleContext _context;
     private string _environment = "Production";
+    private bool _rootModuleSet = false;
 
     /// <summary>
     /// Gets the service collection.
@@ -62,20 +63,35 @@ public sealed class ApplicationBuilder
     }
 
     /// <summary>
-    /// Adds a module to the application.
+    /// Uses the specified module as the root module.
+    /// All dependencies will be automatically loaded.
+    /// This is the recommended way to bootstrap a modular application.
     /// </summary>
-    public ApplicationBuilder AddModule<TModule>() where TModule : IModule, new()
+    public ApplicationBuilder UseRootModule<TModule>() where TModule : IModule, new()
     {
+        if (_rootModuleSet)
+        {
+            throw new InvalidOperationException("Root module has already been set. Only one root module is allowed.");
+        }
+        
         _lifecycleManager.LoadModule<TModule>();
+        _rootModuleSet = true;
         return this;
     }
 
     /// <summary>
-    /// Adds a module by type.
+    /// Uses the specified module type as the root module.
+    /// All dependencies will be automatically loaded.
     /// </summary>
-    public ApplicationBuilder AddModule(Type moduleType)
+    public ApplicationBuilder UseRootModule(Type moduleType)
     {
+        if (_rootModuleSet)
+        {
+            throw new InvalidOperationException("Root module has already been set. Only one root module is allowed.");
+        }
+        
         _lifecycleManager.LoadModule(moduleType);
+        _rootModuleSet = true;
         return this;
     }
 
