@@ -1,7 +1,6 @@
-﻿using HMS.Essentials.Domain.Entities;
-using Shouldly;
+﻿using Shouldly;
 
-namespace HMS.Essentials.Ddd.Domain.Tests.Entities;
+namespace HMS.Essentials.Domain.Entities;
 
 public class EntityTests
 {

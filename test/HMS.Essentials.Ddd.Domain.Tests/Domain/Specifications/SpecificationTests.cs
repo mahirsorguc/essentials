@@ -1,8 +1,7 @@
 ﻿using HMS.Essentials.Domain.Entities;
-using HMS.Essentials.Domain.Specifications;
 using Shouldly;
 
-namespace HMS.Essentials.Ddd.Domain.Tests.Specifications;
+namespace HMS.Essentials.Domain.Specifications;
 
 public class SpecificationTests
 {

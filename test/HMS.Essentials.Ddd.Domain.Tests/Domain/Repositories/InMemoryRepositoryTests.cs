@@ -1,8 +1,7 @@
 ﻿using HMS.Essentials.Domain.Entities;
-using HMS.Essentials.Domain.Repositories;
 using Shouldly;
 
-namespace HMS.Essentials.Ddd.Domain.Tests.Repositories;
+namespace HMS.Essentials.Domain.Repositories;
 
 public class InMemoryRepositoryTests
 {
