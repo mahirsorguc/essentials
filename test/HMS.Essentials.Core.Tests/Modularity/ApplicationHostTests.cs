@@ -13,7 +13,7 @@ public class ApplicationHostTests
 
         // Act
         var host = builder
-            .AddModule<TestModule>()
+            .AddModule<EssentialsCoreTestsModule>()
             .Build();
 
         // Assert
@@ -26,24 +26,12 @@ public class ApplicationHostTests
     {
         // Arrange & Act
         var host = ApplicationBuilder.Create()
-            .AddModule<TestModule>()
+            .AddModule<EssentialsCoreTestsModule>()
             .Build();
 
-        var service = host.Services.GetService<TestService>();
+        var service = host.Services.GetService<TestServicePlaceholder>();
 
         // Assert
         service.ShouldNotBeNull();
-    }
-
-    private class TestModule : EssentialsModule
-    {
-        public override void ConfigureServices(ModuleContext context)
-        {
-            context.Services.AddSingleton<TestService>();
-        }
-    }
-
-    private class TestService
-    {
     }
 }
