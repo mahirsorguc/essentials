@@ -1,1 +1,16 @@
 /.idea
+/src/HMS.Essentials.Core/obj
+/src/HMS.Essentials.Core/bin
+/src/HMS.Essentials.Data/obj
+/src/HMS.Essentials.Demo/obj
+/src/HMS.Essentials.Logging/obj
+/src/HMS.Essentials.Demo/bin
+/src/HMS.Essentials.Data/bin
+/src/HMS.Essentials.Logging/bin
+/test/HMS.Essentials.Core.Tests/bin
+/test/HMS.Essentials.Core.Tests/obj
+/test/HMS.Essentials.Data.Tests/bin
+/test/HMS.Essentials.Data.Tests/obj
+/test/HMS.Essentials.Logging.Tests/bin
+/test/HMS.Essentials.Logging.Tests/obj
+/HMS.Essentials.sln.DotSettings.user
