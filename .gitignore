@@ -14,3 +14,5 @@
 /test/HMS.Essentials.Logging.Tests/bin
 /test/HMS.Essentials.Logging.Tests/obj
 /HMS.Essentials.sln.DotSettings.user
+/src/HMS.Essentials.Ddd.Domain.Shared/obj
+/src/HMS.Essentials.Ddd.Domain/obj
