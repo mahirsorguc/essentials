@@ -75,8 +75,15 @@ static async Task DemonstrateModularityAsync(ApplicationHost app)
     }
 
     Console.WriteLine("\n--- Dependency Graph ---");
-    Console.WriteLine("LoggingModule (Priority: 100) -> No dependencies");
-    Console.WriteLine("DataModule (Priority: 50) -> Depends on LoggingModule");
-    Console.WriteLine("\nInitialization Order: LoggingModule -> DataModule");
+    foreach (var module in app.Modules.OrderBy(m => m.Priority).Reverse())
+    {
+        var dependencyText = module.Dependencies.Any()
+            ? $"Depends on {string.Join(", ", module.Dependencies.Select(d => d.Name))}"
+            : "No dependencies";
+        Console.WriteLine($"{module.Name} (Priority: {module.Priority}) -> {dependencyText}");
+    }
+
+    Console.WriteLine("\nInitialization Order: " + 
+        string.Join(" -> ", app.Modules.OrderBy(m => m.Priority).Reverse().Select(m => m.Name)));
 }
 
