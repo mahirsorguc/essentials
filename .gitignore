@@ -16,3 +16,5 @@
 /HMS.Essentials.sln.DotSettings.user
 /src/HMS.Essentials.Ddd.Domain.Shared/obj
 /src/HMS.Essentials.Ddd.Domain/obj
+/src/HMS.Essentials.Ddd.Domain.Shared/bin
+/src/HMS.Essentials.Ddd.Domain/bin
