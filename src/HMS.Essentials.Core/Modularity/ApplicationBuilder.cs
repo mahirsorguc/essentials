@@ -83,24 +83,6 @@ public sealed class ApplicationBuilder
     }
 
     /// <summary>
-    /// Adds a module to the application.
-    /// </summary>
-    public ApplicationBuilder AddModule<TModule>() where TModule : IModule, new()
-    {
-        _lifecycleManager.LoadModule<TModule>();
-        return this;
-    }
-
-    /// <summary>
-    /// Adds a module by type.
-    /// </summary>
-    public ApplicationBuilder AddModule(Type moduleType)
-    {
-        _lifecycleManager.LoadModule(moduleType);
-        return this;
-    }
-
-    /// <summary>
     /// Discovers and adds modules from an assembly.
     /// </summary>
     public ApplicationBuilder AddModulesFromAssembly(Assembly assembly)

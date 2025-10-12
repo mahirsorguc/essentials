@@ -13,7 +13,7 @@ public class ApplicationHostTests
 
         // Act
         var host = builder
-            .AddModule<EssentialsCoreTestsModule>()
+            .UseRootModule<EssentialsCoreTestsModule>()
             .Build();
 
         // Assert
@@ -26,7 +26,7 @@ public class ApplicationHostTests
     {
         // Arrange & Act
         var host = ApplicationBuilder.Create()
-            .AddModule<EssentialsCoreTestsModule>()
+            .UseRootModule<EssentialsCoreTestsModule>()
             .Build();
 
         var service = host.Services.GetService<TestServicePlaceholder>();
