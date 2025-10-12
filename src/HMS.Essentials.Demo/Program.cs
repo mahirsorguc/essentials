@@ -2,10 +2,11 @@
 using HMS.Essentials;
 using HMS.Essentials.Modularity;
 using HMS.Essentials.Data;
+using HMS.Essentials.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-Console.WriteLine("=== HMS Essentials Modularity Demo ===\n");
+Console.WriteLine("=== HMS Essentials Repository Pattern Demo ===\n");
 
 // Build configuration
 var configuration = new ConfigurationBuilder()
@@ -29,8 +30,8 @@ var app = new ApplicationBuilder(services, configuration)
 
 Console.WriteLine("\n=== Application Built Successfully ===\n");
 
-// Demonstrate module usage
-await DemonstrateModularityAsync(app);
+// Demonstrate repository pattern
+await DemonstrateRepositoryPatternAsync(app);
 
 Console.WriteLine("\n=== Shutting Down ===\n");
 
@@ -40,51 +41,134 @@ app.Dispose();
 Console.WriteLine("Press any key to exit...");
 Console.ReadKey();
 
-static async Task DemonstrateModularityAsync(ApplicationHost app)
+static async Task DemonstrateRepositoryPatternAsync(ApplicationHost app)
 {
-    Console.WriteLine("--- Module Information ---");
+    Console.WriteLine("╔════════════════════════════════════════════════════════════╗");
+    Console.WriteLine("║       REPOSITORY PATTERN DEMONSTRATION                     ║");
+    Console.WriteLine("╚════════════════════════════════════════════════════════════╝\n");
+
+    var productService = app.GetRequiredService<ProductService>();
+    var orderService = app.GetRequiredService<OrderService>();
+
+    // Product Management Demo
+    Console.WriteLine("┌─ PRODUCT MANAGEMENT ─────────────────────────────────────┐");
+    
+    Console.WriteLine("\n1. Creating products...");
+    var laptop = await productService.CreateProductAsync("Gaming Laptop", 1299.99m, 15, "Electronics");
+    var mouse = await productService.CreateProductAsync("Wireless Mouse", 29.99m, 50, "Electronics");
+    var keyboard = await productService.CreateProductAsync("Mechanical Keyboard", 89.99m, 30, "Electronics");
+    var monitor = await productService.CreateProductAsync("4K Monitor", 499.99m, 20, "Electronics");
+    var chair = await productService.CreateProductAsync("Ergonomic Chair", 299.99m, 10, "Furniture");
+    
+    Console.WriteLine($"  ✓ Created: {laptop}");
+    Console.WriteLine($"  ✓ Created: {mouse}");
+    Console.WriteLine($"  ✓ Created: {keyboard}");
+    Console.WriteLine($"  ✓ Created: {monitor}");
+    Console.WriteLine($"  ✓ Created: {chair}");
+
+    Console.WriteLine("\n2. Retrieving all products...");
+    var allProducts = await productService.GetAllProductsAsync();
+    Console.WriteLine($"  ✓ Total products: {allProducts.Count}");
+    foreach (var p in allProducts)
+    {
+        Console.WriteLine($"    • {p}");
+    }
+
+    Console.WriteLine("\n3. Filtering products by category...");
+    var electronics = await productService.GetProductsByCategoryAsync("Electronics");
+    Console.WriteLine($"  ✓ Electronics: {electronics.Count} items");
+
+    Console.WriteLine("\n4. Finding expensive products (>= $300)...");
+    var expensive = await productService.GetExpensiveProductsAsync(300);
+    foreach (var p in expensive)
+    {
+        Console.WriteLine($"  💰 {p}");
+    }
+
+    Console.WriteLine("\n5. Updating product price...");
+    await productService.UpdateProductPriceAsync(mouse.Id, 24.99m);
+    Console.WriteLine($"  ✓ Mouse price updated to $24.99");
+
+    Console.WriteLine("\n6. Stock management - Transferring stock...");
+    await productService.AdjustStockAsync(laptop.Id, -5);
+    Console.WriteLine($"  ✓ Sold 5 laptops");
+    await productService.TransferStockAsync(keyboard.Id, mouse.Id, 10);
+
+    Console.WriteLine("\n7. Pagination demo...");
+    var (pagedProducts, totalCount) = await productService.GetPagedProductsAsync(page: 1, pageSize: 3);
+    Console.WriteLine($"  ✓ Page 1 of products (showing 3 of {totalCount}):");
+    foreach (var p in pagedProducts)
+    {
+        Console.WriteLine($"    • {p}");
+    }
+
+    // Customer and Order Management Demo
+    Console.WriteLine("\n┌─ CUSTOMER & ORDER MANAGEMENT ────────────────────────────┐");
+
+    Console.WriteLine("\n8. Creating customers...");
+    var customer1 = await orderService.CreateCustomerAsync("John", "Doe", "john.doe@example.com");
+    var customer2 = await orderService.CreateCustomerAsync("Jane", "Smith", "jane.smith@example.com");
+    Console.WriteLine($"  ✓ Created: {customer1}");
+    Console.WriteLine($"  ✓ Created: {customer2}");
+
+    Console.WriteLine("\n9. Creating orders...");
+    try
+    {
+        var order1Items = new List<(int, int)>
+        {
+            (laptop.Id, 1),
+            (mouse.Id, 2),
+            (keyboard.Id, 1)
+        };
+        var order1 = await orderService.CreateOrderAsync(customer1.Id, order1Items);
+        Console.WriteLine($"  ✓ Order created: Total ${order1.TotalAmount:F2}");
+        Console.WriteLine($"    Items: {order1.Items.Count}");
+        foreach (var item in order1.Items)
+        {
+            Console.WriteLine($"      • {item}");
+        }
+
+        var order2Items = new List<(int, int)>
+        {
+            (monitor.Id, 1),
+            (chair.Id, 1)
+        };
+        var order2 = await orderService.CreateOrderAsync(customer2.Id, order2Items);
+        Console.WriteLine($"\n  ✓ Order created: Total ${order2.TotalAmount:F2}");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"  ✗ Order creation failed: {ex.Message}");
+    }
+
+    Console.WriteLine("\n10. Retrieving customer orders...");
+    var johnOrders = await orderService.GetCustomerOrdersAsync(customer1.Id);
+    Console.WriteLine($"  ✓ {customer1.FullName} has {johnOrders.Count} order(s)");
+
+    Console.WriteLine("\n11. Finding customer by email...");
+    var foundCustomer = await orderService.FindCustomerByEmailAsync("jane.smith@example.com");
+    if (foundCustomer != null)
+    {
+        Console.WriteLine($"  ✓ Found: {foundCustomer}");
+    }
+
+    Console.WriteLine("\n12. Checking low stock products...");
+    var lowStock = await productService.GetLowStockProductsAsync(15);
+    Console.WriteLine($"  ⚠ Products with stock <= 15: {lowStock.Count}");
+    foreach (var p in lowStock)
+    {
+        Console.WriteLine($"    • {p}");
+    }
+
+    Console.WriteLine("\n┌─ MODULE INFORMATION ─────────────────────────────────────┐");
+    Console.WriteLine("\nLoaded Modules:");
     foreach (var module in app.Modules.OrderBy(m => m.Priority).Reverse())
     {
-        Console.WriteLine($"Module: {module.Name}");
-        Console.WriteLine($"  Type: {module.ModuleType.Name}");
-        Console.WriteLine($"  State: {module.State}");
-        Console.WriteLine($"  Priority: {module.Priority}");
-        Console.WriteLine($"  Description: {module.Description}");
-        Console.WriteLine($"  Loaded At: {module.LoadedAt}");
-        Console.WriteLine($"  Initialized At: {module.InitializedAt}");
-        Console.WriteLine($"  Dependencies: {string.Join(", ", module.Dependencies.Select(d => d.Name))}");
-        Console.WriteLine();
+        Console.WriteLine($"  • {module.Name} (Priority: {module.Priority}, State: {module.State})");
     }
 
-    // Use the services
-    Console.WriteLine("--- Using Module Services ---\n");
-
-    var logService = app.GetRequiredService<ILogService>();
-    logService.LogInfo("This is an info message from the demo app.");
-    logService.LogWarning("This is a warning message.");
-
-    var dataRepository = app.GetRequiredService<IDataRepository>();
-    await dataRepository.SaveDataAsync("Sample Data 1");
-    await dataRepository.SaveDataAsync("Sample Data 2");
-    await dataRepository.SaveDataAsync("Sample Data 3");
-
-    var allData = await dataRepository.GetDataAsync();
-    Console.WriteLine($"\nRetrieved {allData.Count()} items:");
-    foreach (var item in allData)
-    {
-        Console.WriteLine($"  - {item}");
-    }
-
-    Console.WriteLine("\n--- Dependency Graph ---");
-    foreach (var module in app.Modules.OrderBy(m => m.Priority).Reverse())
-    {
-        var dependencyText = module.Dependencies.Any()
-            ? $"Depends on {string.Join(", ", module.Dependencies.Select(d => d.Name))}"
-            : "No dependencies";
-        Console.WriteLine($"{module.Name} (Priority: {module.Priority}) -> {dependencyText}");
-    }
-
-    Console.WriteLine("\nInitialization Order: " + 
-        string.Join(" -> ", app.Modules.OrderBy(m => m.Priority).Reverse().Select(m => m.Name)));
+    Console.WriteLine("\n└──────────────────────────────────────────────────────────┘");
+    Console.WriteLine("\n✓ Repository Pattern demonstration completed successfully!");
 }
+
 
