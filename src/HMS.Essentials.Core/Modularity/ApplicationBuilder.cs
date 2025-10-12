@@ -62,6 +62,27 @@ public sealed class ApplicationBuilder
     }
 
     /// <summary>
+    /// Uses the specified module as the root module.
+    /// All dependencies will be automatically loaded.
+    /// This is the recommended way to bootstrap a modular application.
+    /// </summary>
+    public ApplicationBuilder UseRootModule<TModule>() where TModule : IModule, new()
+    {
+        _lifecycleManager.LoadModule<TModule>();
+        return this;
+    }
+
+    /// <summary>
+    /// Uses the specified module type as the root module.
+    /// All dependencies will be automatically loaded.
+    /// </summary>
+    public ApplicationBuilder UseRootModule(Type moduleType)
+    {
+        _lifecycleManager.LoadModule(moduleType);
+        return this;
+    }
+
+    /// <summary>
     /// Adds a module to the application.
     /// </summary>
     public ApplicationBuilder AddModule<TModule>() where TModule : IModule, new()
