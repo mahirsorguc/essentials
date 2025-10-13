@@ -149,7 +149,107 @@ public class UnitOfWorkBehaviorTests
         _mockUnitOfWork.Verify(u => u.CommitTransactionAsync(cancellationToken), Times.Once);
     }
 
+    [Fact]
+    public async Task Handle_WithoutUnitOfWorkAttribute_ShouldSkipTransactionManagement()
+    {
+        // Arrange
+        var command = new CommandWithoutAttribute();
+        var expectedResponse = "test response";
+        var mockLogger = new Mock<ILogger<UnitOfWorkBehavior<CommandWithoutAttribute, string>>>();
+        var behavior = new UnitOfWorkBehavior<CommandWithoutAttribute, string>(_mockUnitOfWork.Object, mockLogger.Object);
+        Task<string> Next(CancellationToken ct) => Task.FromResult(expectedResponse);
+
+        // Act
+        var result = await behavior.Handle(command, Next, CancellationToken.None);
+
+        // Assert
+        result.ShouldBe(expectedResponse);
+        _mockUnitOfWork.Verify(u => u.BeginTransactionAsync(It.IsAny<CancellationToken>()), Times.Never);
+        _mockUnitOfWork.Verify(u => u.CommitTransactionAsync(It.IsAny<CancellationToken>()), Times.Never);
+        _mockUnitOfWork.Verify(u => u.RollbackTransactionAsync(It.IsAny<CancellationToken>()), Times.Never);
+    }
+
+    [Fact]
+    public async Task Handle_WithDisabledUnitOfWorkAttribute_ShouldSkipTransactionManagement()
+    {
+        // Arrange
+        var command = new CommandWithDisabledUnitOfWork();
+        var expectedResponse = "test response";
+        var mockLogger = new Mock<ILogger<UnitOfWorkBehavior<CommandWithDisabledUnitOfWork, string>>>();
+        var behavior = new UnitOfWorkBehavior<CommandWithDisabledUnitOfWork, string>(_mockUnitOfWork.Object, mockLogger.Object);
+        Task<string> Next(CancellationToken ct) => Task.FromResult(expectedResponse);
+
+        // Act
+        var result = await behavior.Handle(command, Next, CancellationToken.None);
+
+        // Assert
+        result.ShouldBe(expectedResponse);
+        _mockUnitOfWork.Verify(u => u.BeginTransactionAsync(It.IsAny<CancellationToken>()), Times.Never);
+        _mockUnitOfWork.Verify(u => u.CommitTransactionAsync(It.IsAny<CancellationToken>()), Times.Never);
+        _mockUnitOfWork.Verify(u => u.RollbackTransactionAsync(It.IsAny<CancellationToken>()), Times.Never);
+    }
+
+    [Fact]
+    public async Task Handle_WithAutoCommitDisabled_ShouldNotCommitTransaction()
+    {
+        // Arrange
+        var command = new CommandWithoutAutoCommit();
+        var expectedResponse = "test response";
+        var mockLogger = new Mock<ILogger<UnitOfWorkBehavior<CommandWithoutAutoCommit, string>>>();
+        var behavior = new UnitOfWorkBehavior<CommandWithoutAutoCommit, string>(_mockUnitOfWork.Object, mockLogger.Object);
+        Task<string> Next(CancellationToken ct) => Task.FromResult(expectedResponse);
+
+        // Act
+        var result = await behavior.Handle(command, Next, CancellationToken.None);
+
+        // Assert
+        result.ShouldBe(expectedResponse);
+        _mockUnitOfWork.Verify(u => u.BeginTransactionAsync(It.IsAny<CancellationToken>()), Times.Once);
+        _mockUnitOfWork.Verify(u => u.CommitTransactionAsync(It.IsAny<CancellationToken>()), Times.Never);
+        _mockUnitOfWork.Verify(u => u.RollbackTransactionAsync(It.IsAny<CancellationToken>()), Times.Never);
+    }
+
+    [Fact]
+    public async Task Handle_WithAutoRollbackDisabled_ShouldNotRollbackOnException()
+    {
+        // Arrange
+        var command = new CommandWithoutAutoRollback();
+        var expectedException = new InvalidOperationException("Test exception");
+        var mockLogger = new Mock<ILogger<UnitOfWorkBehavior<CommandWithoutAutoRollback, string>>>();
+        var behavior = new UnitOfWorkBehavior<CommandWithoutAutoRollback, string>(_mockUnitOfWork.Object, mockLogger.Object);
+        Task<string> NextThrows(CancellationToken ct) => throw expectedException;
+
+        // Act & Assert
+        var exception = await Should.ThrowAsync<InvalidOperationException>(
+            async () => await behavior.Handle(command, NextThrows, CancellationToken.None));
+
+        exception.ShouldBe(expectedException);
+        _mockUnitOfWork.Verify(u => u.BeginTransactionAsync(It.IsAny<CancellationToken>()), Times.Once);
+        _mockUnitOfWork.Verify(u => u.CommitTransactionAsync(It.IsAny<CancellationToken>()), Times.Never);
+        _mockUnitOfWork.Verify(u => u.RollbackTransactionAsync(It.IsAny<CancellationToken>()), Times.Never);
+    }
+
+    [UnitOfWork]
     public class TestCommand : ICommand<string>
+    {
+    }
+
+    public class CommandWithoutAttribute : ICommand<string>
+    {
+    }
+
+    [UnitOfWork(false)]
+    public class CommandWithDisabledUnitOfWork : ICommand<string>
+    {
+    }
+
+    [UnitOfWork(AutoCommit = false)]
+    public class CommandWithoutAutoCommit : ICommand<string>
+    {
+    }
+
+    [UnitOfWork(AutoRollback = false)]
+    public class CommandWithoutAutoRollback : ICommand<string>
     {
     }
 }
