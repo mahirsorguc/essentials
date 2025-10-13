@@ -1,4 +1,4 @@
-namespace HMS.Essentials.Domain.UnitOfWork;
+namespace HMS.Essentials.UnitOfWork;
 
 /// <summary>
 /// Represents a unit of work pattern for managing transactions and coordinating repository operations.

@@ -10,8 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\HMS.Essentials.Core\HMS.Essentials.Core.csproj" />
-    <ProjectReference Include="..\HMS.Essentials.Ddd.Domain\HMS.Essentials.Ddd.Domain.csproj" />
+    <ProjectReference Include="..\HMS.Essentials.Ddd.Application\HMS.Essentials.Ddd.Application.csproj" />
     <ProjectReference Include="..\HMS.Essentials.Logging\HMS.Essentials.Logging.csproj" />
     <ProjectReference Include="..\HMS.Essentials.Data\HMS.Essentials.Data.csproj" />
   </ItemGroup>
