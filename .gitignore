@@ -44,3 +44,11 @@
 /src/HMS.Essentials.MediatR.Queries/bin
 /src/HMS.Essentials.Ddd.Application.Contracts/bin
 /src/HMS.Essentials.Ddd.Application.Contracts/obj
+/test/HMS.Essentials.MediatR.Commands.Tests/bin
+/test/HMS.Essentials.MediatR.Commands.Tests/obj
+/test/HMS.Essentials.MediatR.DomainEvents.Tests/bin
+/test/HMS.Essentials.MediatR.DomainEvents.Tests/obj
+/test/HMS.Essentials.MediatR.Queries.Tests/bin
+/test/HMS.Essentials.MediatR.Queries.Tests/obj
+/test/HMS.Essentials.MediatR.Tests/bin
+/test/HMS.Essentials.MediatR.Tests/obj
