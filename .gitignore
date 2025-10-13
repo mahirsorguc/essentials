@@ -36,3 +36,9 @@
 /src/HMS.Essentials.MediatR.Contracts/obj
 /src/HMS.Essentials.MediatR/bin
 /src/HMS.Essentials.MediatR/obj
+/src/HMS.Essentials.MediatR.Commands/bin
+/src/HMS.Essentials.MediatR.Commands/obj
+/src/HMS.Essentials.MediatR.DomainEvents/obj
+/src/HMS.Essentials.MediatR.Queries/obj
+/src/HMS.Essentials.MediatR.DomainEvents/bin
+/src/HMS.Essentials.MediatR.Queries/bin

@@ -4,16 +4,16 @@
         <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <RootNamespace>HMS.Essentials</RootNamespace>
+        <RootNamespace>HMS.Essentials.MediatR</RootNamespace>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\HMS.Essentials.Core\HMS.Essentials.Core.csproj" />
+      <PackageReference Include="MediatR.Contracts" Version="2.0.1" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="MediatR.Contracts" Version="2.0.1" />
+      <ProjectReference Include="..\HMS.Essentials.Core\HMS.Essentials.Core.csproj" />
     </ItemGroup>
 
 </Project>

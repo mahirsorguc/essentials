@@ -3,6 +3,7 @@
 namespace HMS.Essentials.MediatR;
 
 [DependsOn(typeof(EssentialsCoreModule))]
-public class EssentialsMediatRContractsModule : EssentialsModule
+public class EssentialsMediatRDomainEventsModule : EssentialsModule
 {
+    
 }
