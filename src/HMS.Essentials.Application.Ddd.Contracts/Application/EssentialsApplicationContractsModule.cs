@@ -1,7 +1,7 @@
 ﻿using HMS.Essentials.Domain;
 using HMS.Essentials.Modularity;
 
-namespace HMS.Essentials;
+namespace HMS.Essentials.Application;
 
 [DependsOn(
     typeof(EssentialsDomainSharedModule)

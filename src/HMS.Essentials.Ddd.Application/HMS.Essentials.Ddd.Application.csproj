@@ -9,7 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\HMS.Essentials.Application.Contracts\HMS.Essentials.Application.Contracts.csproj" />
+      <ProjectReference Include="..\HMS.Essentials.Application.Ddd.Contracts\HMS.Essentials.Application.Ddd.Contracts.csproj" />
       <ProjectReference Include="..\HMS.Essentials.Ddd.Domain\HMS.Essentials.Ddd.Domain.csproj" />
     </ItemGroup>
 

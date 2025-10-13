@@ -24,9 +24,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HMS.Essentials.Ddd.Domain.S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HMS.Essentials.Ddd.Domain.Tests", "test\HMS.Essentials.Ddd.Domain.Tests\HMS.Essentials.Ddd.Domain.Tests.csproj", "{2A49B426-68F9-4962-9AF4-2FA8CF42BDBA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HMS.Essentials.Application", "src\HMS.Essentials.Application\HMS.Essentials.Application.csproj", "{12526B41-B752-41AD-9F66-81C60EE17146}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HMS.Essentials.Ddd.Application", "src\HMS.Essentials.Ddd.Application\HMS.Essentials.Ddd.Application.csproj", "{12526B41-B752-41AD-9F66-81C60EE17146}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HMS.Essentials.Application.Contracts", "src\HMS.Essentials.Application.Contracts\HMS.Essentials.Application.Contracts.csproj", "{31EB0487-A175-4528-BA77-1CA03F83526E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HMS.Essentials.Application.Ddd.Contracts", "src\HMS.Essentials.Application.Ddd.Contracts\HMS.Essentials.Application.Ddd.Contracts.csproj", "{31EB0487-A175-4528-BA77-1CA03F83526E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
