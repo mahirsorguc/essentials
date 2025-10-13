@@ -50,6 +50,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HMS.Essentials.MediatR.Quer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HMS.Essentials.MediatR.DomainEvents.Tests", "test\HMS.Essentials.MediatR.DomainEvents.Tests\HMS.Essentials.MediatR.DomainEvents.Tests.csproj", "{1BC2014A-6FA7-4654-9009-D279FD8F6F12}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HMS.Essentials.MediatR.Attributes", "src\HMS.Essentials.MediatR.Attributes\HMS.Essentials.MediatR.Attributes.csproj", "{7907C8A7-57DC-426E-8203-87C438767395}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -336,6 +338,18 @@ Global
 		{1BC2014A-6FA7-4654-9009-D279FD8F6F12}.Release|x64.Build.0 = Release|Any CPU
 		{1BC2014A-6FA7-4654-9009-D279FD8F6F12}.Release|x86.ActiveCfg = Release|Any CPU
 		{1BC2014A-6FA7-4654-9009-D279FD8F6F12}.Release|x86.Build.0 = Release|Any CPU
+		{7907C8A7-57DC-426E-8203-87C438767395}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7907C8A7-57DC-426E-8203-87C438767395}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7907C8A7-57DC-426E-8203-87C438767395}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7907C8A7-57DC-426E-8203-87C438767395}.Debug|x64.Build.0 = Debug|Any CPU
+		{7907C8A7-57DC-426E-8203-87C438767395}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7907C8A7-57DC-426E-8203-87C438767395}.Debug|x86.Build.0 = Debug|Any CPU
+		{7907C8A7-57DC-426E-8203-87C438767395}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7907C8A7-57DC-426E-8203-87C438767395}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7907C8A7-57DC-426E-8203-87C438767395}.Release|x64.ActiveCfg = Release|Any CPU
+		{7907C8A7-57DC-426E-8203-87C438767395}.Release|x64.Build.0 = Release|Any CPU
+		{7907C8A7-57DC-426E-8203-87C438767395}.Release|x86.ActiveCfg = Release|Any CPU
+		{7907C8A7-57DC-426E-8203-87C438767395}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -364,5 +378,6 @@ Global
 		{89EBA535-C29D-4A9B-857F-2C7F323BD827} = {C2CF01BC-478A-4C2D-BBE8-10F22DCF0C54}
 		{05C726CC-6B7E-42D9-8EE4-FF51232FD873} = {C2CF01BC-478A-4C2D-BBE8-10F22DCF0C54}
 		{1BC2014A-6FA7-4654-9009-D279FD8F6F12} = {C2CF01BC-478A-4C2D-BBE8-10F22DCF0C54}
+		{7907C8A7-57DC-426E-8203-87C438767395} = {9C56C1FC-E865-4BA9-98C3-4564B99E6F99}
 	EndGlobalSection
 EndGlobal

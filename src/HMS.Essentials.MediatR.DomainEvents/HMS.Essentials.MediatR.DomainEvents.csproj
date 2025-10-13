@@ -14,6 +14,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\HMS.Essentials.Core\HMS.Essentials.Core.csproj" />
+      <ProjectReference Include="..\HMS.Essentials.MediatR.Attributes\HMS.Essentials.MediatR.Attributes.csproj" />
     </ItemGroup>
 
 </Project>

@@ -52,3 +52,5 @@
 /test/HMS.Essentials.MediatR.Queries.Tests/obj
 /test/HMS.Essentials.MediatR.Tests/bin
 /test/HMS.Essentials.MediatR.Tests/obj
+/src/HMS.Essentials.MediatR.Attributes/obj
+/src/HMS.Essentials.MediatR.Attributes/bin
