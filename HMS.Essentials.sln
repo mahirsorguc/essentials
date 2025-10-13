@@ -28,7 +28,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HMS.Essentials.UnitOfWork.I
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HMS.Essentials.Ddd.Application", "src\HMS.Essentials.Ddd.Application\HMS.Essentials.Ddd.Application.csproj", "{12526B41-B752-41AD-9F66-81C60EE17146}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HMS.Essentials.Application.Ddd.Contracts", "src\HMS.Essentials.Application.Ddd.Contracts\HMS.Essentials.Application.Ddd.Contracts.csproj", "{31EB0487-A175-4528-BA77-1CA03F83526E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HMS.Essentials.Ddd.Application.Contracts", "src\HMS.Essentials.Ddd.Application.Contracts\HMS.Essentials.Ddd.Application.Contracts.csproj", "{31EB0487-A175-4528-BA77-1CA03F83526E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HMS.Essentials.UnitOfWork", "src\HMS.Essentials.UnitOfWork\HMS.Essentials.UnitOfWork.csproj", "{8A7D3F12-9B8E-4C21-A6F5-3D4E5F6A7B8C}"
 EndProject

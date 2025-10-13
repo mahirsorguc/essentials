@@ -42,3 +42,5 @@
 /src/HMS.Essentials.MediatR.Queries/obj
 /src/HMS.Essentials.MediatR.DomainEvents/bin
 /src/HMS.Essentials.MediatR.Queries/bin
+/src/HMS.Essentials.Ddd.Application.Contracts/bin
+/src/HMS.Essentials.Ddd.Application.Contracts/obj
