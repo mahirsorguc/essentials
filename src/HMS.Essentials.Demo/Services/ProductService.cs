@@ -1,6 +1,6 @@
 using HMS.Essentials.Domain.Repositories;
-using HMS.Essentials.Domain.UnitOfWork;
 using HMS.Essentials.Entities;
+using HMS.Essentials.UnitOfWork;
 
 namespace HMS.Essentials.Services;
 

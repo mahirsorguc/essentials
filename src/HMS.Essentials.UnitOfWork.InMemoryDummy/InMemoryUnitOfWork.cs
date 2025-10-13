@@ -1,4 +1,4 @@
-namespace HMS.Essentials.Domain.UnitOfWork;
+namespace HMS.Essentials.UnitOfWork.InMemoryDummy;
 
 /// <summary>
 /// Base implementation of the Unit of Work pattern for in-memory scenarios.

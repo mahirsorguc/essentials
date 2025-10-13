@@ -26,3 +26,9 @@
 /src/HMS.Essentials.Application.Ddd.Contracts/bin
 /src/HMS.Essentials.Ddd.Application/bin
 /src/HMS.Essentials.Ddd.Application/obj
+/src/HMS.Essentials.UnitOfWork.InMemoryDummy/bin
+/src/HMS.Essentials.UnitOfWork.InMemoryDummy/obj
+/src/HMS.Essentials.UnitOfWork/obj
+/test/HMS.Essentials.UnitOfWork.InMemoryDummy.Tests/bin
+/test/HMS.Essentials.UnitOfWork.InMemoryDummy.Tests/obj
+/src/HMS.Essentials.UnitOfWork/bin
