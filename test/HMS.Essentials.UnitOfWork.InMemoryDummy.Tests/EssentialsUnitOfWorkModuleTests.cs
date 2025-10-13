@@ -18,7 +18,7 @@ public class EssentialsUnitOfWorkModuleTests
         // Arrange
         var services = new ServiceCollection();
         var context = new ModuleContext(services, CreateConfiguration());
-        var module = new EssentialsUnitOfWorkModule();
+        var module = new EssentialsUnitOfWorkInMemoryDummyModule();
 
         // Act
         module.ConfigureServices(context);
@@ -36,7 +36,7 @@ public class EssentialsUnitOfWorkModuleTests
         // Arrange
         var services = new ServiceCollection();
         var context = new ModuleContext(services, CreateConfiguration());
-        var module = new EssentialsUnitOfWorkModule();
+        var module = new EssentialsUnitOfWorkInMemoryDummyModule();
 
         // Act
         module.ConfigureServices(context);

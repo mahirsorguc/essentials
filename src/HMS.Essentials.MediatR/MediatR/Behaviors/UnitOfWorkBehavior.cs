@@ -7,6 +7,7 @@ namespace HMS.Essentials.MediatR.Behaviors;
 /// <summary>
 /// Pipeline behavior that wraps command execution in a unit of work transaction.
 /// Automatically commits the transaction if the command succeeds.
+/// Only applies to commands decorated with the <see cref="UnitOfWorkAttribute"/>.
 /// </summary>
 /// <typeparam name="TRequest">Request type.</typeparam>
 /// <typeparam name="TResponse">Response type.</typeparam>
@@ -29,7 +30,19 @@ public class UnitOfWorkBehavior<TRequest, TResponse> : IPipelineBehavior<TReques
         RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
-        var requestName = typeof(TRequest).Name;
+        var requestType = typeof(TRequest);
+        var requestName = requestType.Name;
+
+        // Check if the command has UnitOfWorkAttribute
+        var unitOfWorkAttribute = requestType.GetCustomAttributes(typeof(UnitOfWorkAttribute), true)
+            .FirstOrDefault() as UnitOfWorkAttribute;
+
+        // If attribute is not present or disabled, skip transaction management
+        if (unitOfWorkAttribute == null || !unitOfWorkAttribute.IsEnabled)
+        {
+            _logger.LogDebug("Unit of work is not enabled for {RequestName}, skipping transaction management", requestName);
+            return await next(cancellationToken);
+        }
 
         try
         {
@@ -37,11 +50,18 @@ public class UnitOfWorkBehavior<TRequest, TResponse> : IPipelineBehavior<TReques
             
             await _unitOfWork.BeginTransactionAsync(cancellationToken);
 
-            var response = await next();
+            var response = await next(cancellationToken);
 
-            await _unitOfWork.CommitTransactionAsync(cancellationToken);
-            
-            _logger.LogDebug("Transaction committed for {RequestName}", requestName);
+            // Auto-commit if enabled
+            if (unitOfWorkAttribute.AutoCommit)
+            {
+                await _unitOfWork.CommitTransactionAsync(cancellationToken);
+                _logger.LogDebug("Transaction committed for {RequestName}", requestName);
+            }
+            else
+            {
+                _logger.LogDebug("Auto-commit is disabled for {RequestName}, transaction left open", requestName);
+            }
 
             return response;
         }
@@ -49,7 +69,11 @@ public class UnitOfWorkBehavior<TRequest, TResponse> : IPipelineBehavior<TReques
         {
             _logger.LogError(ex, "Transaction failed for {RequestName}. Rolling back.", requestName);
             
-            await _unitOfWork.RollbackTransactionAsync(cancellationToken);
+            // Auto-rollback if enabled
+            if (unitOfWorkAttribute.AutoRollback)
+            {
+                await _unitOfWork.RollbackTransactionAsync(cancellationToken);
+            }
             
             throw;
         }
