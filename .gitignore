@@ -20,3 +20,9 @@
 /src/HMS.Essentials.Ddd.Domain/bin
 /test/HMS.Essentials.Ddd.Domain.Tests/bin
 /test/HMS.Essentials.Ddd.Domain.Tests/obj
+/src/HMS.Essentials.Application.Contracts/obj
+/src/HMS.Essentials.Application/obj
+/src/HMS.Essentials.Application.Ddd.Contracts/obj
+/src/HMS.Essentials.Application.Ddd.Contracts/bin
+/src/HMS.Essentials.Ddd.Application/bin
+/src/HMS.Essentials.Ddd.Application/obj
