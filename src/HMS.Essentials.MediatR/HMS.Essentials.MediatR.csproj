@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>HMS.Essentials</RootNamespace>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\HMS.Essentials.MediatR.Commands\HMS.Essentials.MediatR.Commands.csproj" />
+      <ProjectReference Include="..\HMS.Essentials.MediatR.DomainEvents\HMS.Essentials.MediatR.DomainEvents.csproj" />
+      <ProjectReference Include="..\HMS.Essentials.MediatR.Queries\HMS.Essentials.MediatR.Queries.csproj" />
+      <ProjectReference Include="..\HMS.Essentials.UnitOfWork\HMS.Essentials.UnitOfWork.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="FluentValidation" Version="11.11.0" />
+      <PackageReference Include="MediatR" Version="13.0.0" />
+    </ItemGroup>
+
+</Project>
