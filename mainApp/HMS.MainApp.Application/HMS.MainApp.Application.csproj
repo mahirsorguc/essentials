@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>HMS.MainApp</RootNamespace>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\src\HMS.Essentials.Ddd.Application\HMS.Essentials.Ddd.Application.csproj" />
+      <ProjectReference Include="..\HMS.MainApp.Application.Commands\HMS.MainApp.Application.Commands.csproj" />
+      <ProjectReference Include="..\HMS.MainApp.Application.Queries\HMS.MainApp.Application.Queries.csproj" />
+      <ProjectReference Include="..\HMS.MainApp.Domain\HMS.MainApp.Domain.csproj" />
+    </ItemGroup>
+
+</Project>
