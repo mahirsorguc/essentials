@@ -54,3 +54,9 @@
 /test/HMS.Essentials.MediatR.Tests/obj
 /src/HMS.Essentials.MediatR.Attributes/obj
 /src/HMS.Essentials.MediatR.Attributes/bin
+/src/HMS.Essentials.Ddd.Application.Commands/bin
+/src/HMS.Essentials.Ddd.Application.Commands/obj
+/src/HMS.Essentials.Ddd.Application.Queries/bin
+/src/HMS.Essentials.Ddd.Application.Queries/obj
+/src/HMS.Essentials.Ddd.Domain.Events/bin
+/src/HMS.Essentials.Ddd.Domain.Events/obj

@@ -9,9 +9,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\HMS.Essentials.Ddd.Application.Contracts\HMS.Essentials.Ddd.Application.Contracts.csproj" />
+      <ProjectReference Include="..\HMS.Essentials.Ddd.Application.Commands\HMS.Essentials.Ddd.Application.Commands.csproj" />
+      <ProjectReference Include="..\HMS.Essentials.Ddd.Application.Queries\HMS.Essentials.Ddd.Application.Queries.csproj" />
       <ProjectReference Include="..\HMS.Essentials.Ddd.Domain\HMS.Essentials.Ddd.Domain.csproj" />
-      <ProjectReference Include="..\HMS.Essentials.UnitOfWork\HMS.Essentials.UnitOfWork.csproj" />
+      <ProjectReference Include="..\HMS.Essentials.MediatR\HMS.Essentials.MediatR.csproj" />
     </ItemGroup>
 
 </Project>

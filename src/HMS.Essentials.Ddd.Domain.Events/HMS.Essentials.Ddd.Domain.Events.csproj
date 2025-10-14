@@ -4,13 +4,12 @@
         <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <RootNamespace>HMS.Essentials</RootNamespace>
+        <RootNamespace>HMS.Essentials.Domain.Events</RootNamespace>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\HMS.Essentials.Ddd.Domain.Events\HMS.Essentials.Ddd.Domain.Events.csproj" />
-      <ProjectReference Include="..\HMS.Essentials.Ddd.Domain.Shared\HMS.Essentials.Ddd.Domain.Shared.csproj" />
+      <ProjectReference Include="..\HMS.Essentials.MediatR.DomainEvents\HMS.Essentials.MediatR.DomainEvents.csproj" />
     </ItemGroup>
 
 </Project>
