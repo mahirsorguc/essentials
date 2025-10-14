@@ -8,6 +8,19 @@ namespace HMS.Essentials.MediatR.Behaviors;
 /// Pipeline behavior that wraps command execution in a unit of work transaction.
 /// Automatically commits the transaction if the command succeeds.
 /// Only applies to commands decorated with the <see cref="UnitOfWorkAttribute"/>.
+/// 
+/// <para>
+/// <b>Nested Transaction Handling:</b><br/>
+/// This behavior intelligently handles nested transaction scenarios where a command may dispatch 
+/// another command that also requires a unit of work. When a transaction is already active:
+/// <list type="bullet">
+/// <item>The nested command participates in the existing transaction</item>
+/// <item>No new transaction is started</item>
+/// <item>The nested command does not commit or rollback the transaction</item>
+/// <item>Only the outermost command (transaction owner) manages commit/rollback</item>
+/// </list>
+/// This prevents "nested transaction not supported" errors and ensures proper transaction boundaries.
+/// </para>
 /// </summary>
 /// <typeparam name="TRequest">Request type.</typeparam>
 /// <typeparam name="TResponse">Response type.</typeparam>
@@ -44,21 +57,34 @@ public class UnitOfWorkBehavior<TRequest, TResponse> : IPipelineBehavior<TReques
             return await next(cancellationToken);
         }
 
+        // Check if a transaction is already active (nested command scenario)
+        var isNestedTransaction = _unitOfWork.HasActiveTransaction;
+        
+        if (isNestedTransaction)
+        {
+            _logger.LogDebug("Transaction already active for {RequestName}, participating in existing transaction", requestName);
+            // Don't start a new transaction, just participate in the existing one
+            return await next(cancellationToken);
+        }
+
+        // We are starting a new transaction, so we own it and are responsible for commit/rollback
+        var transactionOwner = true;
+
         try
         {
-            _logger.LogDebug("Starting transaction for {RequestName}", requestName);
+            _logger.LogDebug("Starting new transaction for {RequestName}", requestName);
             
             await _unitOfWork.BeginTransactionAsync(cancellationToken);
 
             var response = await next(cancellationToken);
 
-            // Auto-commit if enabled
-            if (unitOfWorkAttribute.AutoCommit)
+            // Auto-commit if enabled and we own the transaction
+            if (transactionOwner && unitOfWorkAttribute.AutoCommit)
             {
                 await _unitOfWork.CommitTransactionAsync(cancellationToken);
                 _logger.LogDebug("Transaction committed for {RequestName}", requestName);
             }
-            else
+            else if (!unitOfWorkAttribute.AutoCommit)
             {
                 _logger.LogDebug("Auto-commit is disabled for {RequestName}, transaction left open", requestName);
             }
@@ -69,8 +95,8 @@ public class UnitOfWorkBehavior<TRequest, TResponse> : IPipelineBehavior<TReques
         {
             _logger.LogError(ex, "Transaction failed for {RequestName}. Rolling back.", requestName);
             
-            // Auto-rollback if enabled
-            if (unitOfWorkAttribute.AutoRollback)
+            // Auto-rollback if enabled and we own the transaction
+            if (transactionOwner && unitOfWorkAttribute.AutoRollback)
             {
                 await _unitOfWork.RollbackTransactionAsync(cancellationToken);
             }

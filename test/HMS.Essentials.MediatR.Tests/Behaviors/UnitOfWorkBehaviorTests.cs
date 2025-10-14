@@ -72,7 +72,7 @@ public class UnitOfWorkBehaviorTests
             x => x.Log(
                 LogLevel.Debug,
                 It.IsAny<EventId>(),
-                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains("Starting transaction")),
+                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains("Starting new transaction")),
                 null,
                 It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
             Times.Once);
@@ -226,6 +226,100 @@ public class UnitOfWorkBehaviorTests
         exception.ShouldBe(expectedException);
         _mockUnitOfWork.Verify(u => u.BeginTransactionAsync(It.IsAny<CancellationToken>()), Times.Once);
         _mockUnitOfWork.Verify(u => u.CommitTransactionAsync(It.IsAny<CancellationToken>()), Times.Never);
+        _mockUnitOfWork.Verify(u => u.RollbackTransactionAsync(It.IsAny<CancellationToken>()), Times.Never);
+    }
+
+    [Fact]
+    public async Task Handle_WithActiveTransaction_ShouldNotStartNewTransaction()
+    {
+        // Arrange
+        var command = new TestCommand();
+        var expectedResponse = "test response";
+        _mockUnitOfWork.Setup(u => u.HasActiveTransaction).Returns(true);
+        Task<string> Next(CancellationToken ct) => Task.FromResult(expectedResponse);
+
+        // Act
+        var result = await _behavior.Handle(command, Next, CancellationToken.None);
+
+        // Assert
+        result.ShouldBe(expectedResponse);
+        _mockUnitOfWork.Verify(u => u.BeginTransactionAsync(It.IsAny<CancellationToken>()), Times.Never);
+        _mockUnitOfWork.Verify(u => u.CommitTransactionAsync(It.IsAny<CancellationToken>()), Times.Never);
+        _mockUnitOfWork.Verify(u => u.RollbackTransactionAsync(It.IsAny<CancellationToken>()), Times.Never);
+    }
+
+    [Fact]
+    public async Task Handle_WithActiveTransaction_ShouldLogParticipationMessage()
+    {
+        // Arrange
+        var command = new TestCommand();
+        var expectedResponse = "test response";
+        _mockUnitOfWork.Setup(u => u.HasActiveTransaction).Returns(true);
+        Task<string> Next(CancellationToken ct) => Task.FromResult(expectedResponse);
+
+        // Act
+        await _behavior.Handle(command, Next, CancellationToken.None);
+
+        // Assert
+        _mockLogger.Verify(
+            x => x.Log(
+                LogLevel.Debug,
+                It.IsAny<EventId>(),
+                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains("Transaction already active") && v.ToString()!.Contains("participating in existing transaction")),
+                null,
+                It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
+            Times.Once);
+    }
+
+    [Fact]
+    public async Task Handle_WithActiveTransactionAndException_ShouldNotRollback()
+    {
+        // Arrange
+        var command = new TestCommand();
+        var expectedException = new InvalidOperationException("Test exception");
+        _mockUnitOfWork.Setup(u => u.HasActiveTransaction).Returns(true);
+        Task<string> NextThrows(CancellationToken ct) => throw expectedException;
+
+        // Act & Assert
+        var exception = await Should.ThrowAsync<InvalidOperationException>(
+            async () => await _behavior.Handle(command, NextThrows, CancellationToken.None));
+
+        exception.ShouldBe(expectedException);
+        _mockUnitOfWork.Verify(u => u.BeginTransactionAsync(It.IsAny<CancellationToken>()), Times.Never);
+        _mockUnitOfWork.Verify(u => u.CommitTransactionAsync(It.IsAny<CancellationToken>()), Times.Never);
+        _mockUnitOfWork.Verify(u => u.RollbackTransactionAsync(It.IsAny<CancellationToken>()), Times.Never);
+    }
+
+    [Fact]
+    public async Task Handle_NestedCommand_ShouldParticipateInParentTransaction()
+    {
+        // Arrange
+        var command = new TestCommand();
+        var expectedResponse = "test response";
+        
+        // Simulate nested transaction scenario:
+        // First call: No active transaction (outer command)
+        // Second call: Active transaction (inner/nested command)
+        var setupSequence = _mockUnitOfWork.SetupSequence(u => u.HasActiveTransaction)
+            .Returns(false)  // First command - no active transaction
+            .Returns(true);  // Nested command - transaction already active
+
+        Task<string> Next(CancellationToken ct) => Task.FromResult(expectedResponse);
+
+        // Act - First command (outer)
+        var result1 = await _behavior.Handle(command, Next, CancellationToken.None);
+        
+        // Act - Nested command (inner)
+        var result2 = await _behavior.Handle(command, Next, CancellationToken.None);
+
+        // Assert
+        result1.ShouldBe(expectedResponse);
+        result2.ShouldBe(expectedResponse);
+        
+        // Transaction should only be started once (by the outer command)
+        _mockUnitOfWork.Verify(u => u.BeginTransactionAsync(It.IsAny<CancellationToken>()), Times.Once);
+        // Transaction should only be committed once (by the outer command)
+        _mockUnitOfWork.Verify(u => u.CommitTransactionAsync(It.IsAny<CancellationToken>()), Times.Once);
         _mockUnitOfWork.Verify(u => u.RollbackTransactionAsync(It.IsAny<CancellationToken>()), Times.Never);
     }
 
