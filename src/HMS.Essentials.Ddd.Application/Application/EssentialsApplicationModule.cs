@@ -1,12 +1,13 @@
-﻿using HMS.Essentials.Domain;
+﻿using HMS.Essentials.Application.Commands;
+using HMS.Essentials.Application.Queries;
+using HMS.Essentials.Domain;
 using HMS.Essentials.Modularity;
-using HMS.Essentials.UnitOfWork;
 
 namespace HMS.Essentials.Application;
 
 [DependsOn(
-    typeof(EssentialsUnitOfWorkModule),
-    typeof(EssentialsApplicationContractsModule),
+    typeof(EssentialsApplicationCommandsModule),
+    typeof(EssentialsApplicationQueriesModule),
     typeof(EssentialsDomainModule)
 )]
 public class EssentialsApplicationModule : EssentialsModule

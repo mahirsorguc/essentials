@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>HMS.Essentials.Application</RootNamespace>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\HMS.Essentials.Ddd.Application.Contracts\HMS.Essentials.Ddd.Application.Contracts.csproj" />
+      <ProjectReference Include="..\HMS.Essentials.MediatR.Queries\HMS.Essentials.MediatR.Queries.csproj" />
+    </ItemGroup>
+
+</Project>
