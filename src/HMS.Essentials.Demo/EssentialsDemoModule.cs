@@ -1,9 +1,12 @@
-﻿using HMS.Essentials.Data;
+﻿using HMS.Essentials.Application;
+using HMS.Essentials.Data;
 using HMS.Essentials.Domain;
 using HMS.Essentials.Domain.Extensions;
 using HMS.Essentials.Entities;
+using HMS.Essentials.MediatR;
 using HMS.Essentials.Modularity;
 using HMS.Essentials.Services;
+using HMS.Essentials.UnitOfWork.InMemoryDummy;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace HMS.Essentials;
@@ -13,6 +16,8 @@ namespace HMS.Essentials;
 /// This module demonstrates the repository pattern with various entities and services.
 /// </summary>
 [DependsOn(
+    typeof(EssentialsApplicationModule),
+    typeof(EssentialsUnitOfWorkInMemoryDummyModule),
     typeof(EssentialsDataModule),
     typeof(EssentialsDomainModule)
 )]
@@ -20,8 +25,6 @@ public class EssentialsDemoModule : EssentialsModule
 {
     public override void ConfigureServices(ModuleContext context)
     {
-        Console.WriteLine("[DemoModule] Configuring services...");
-        
         // Register in-memory repositories for demo entities
         context.Services.AddInMemoryRepository<Product, int>();
         context.Services.AddInMemoryRepository<Customer, Guid>();
@@ -30,18 +33,5 @@ public class EssentialsDemoModule : EssentialsModule
         // Register demo services
         context.Services.AddScoped<ProductService>();
         context.Services.AddScoped<OrderService>();
-        
-        Console.WriteLine("[DemoModule] Repository pattern services registered.");
-    }
-
-    public override void Initialize(ModuleContext context)
-    {
-        Console.WriteLine("[DemoModule] Initialized successfully.");
-        Console.WriteLine("[DemoModule] Ready to demonstrate repository pattern features.");
-    }
-
-    public override void Shutdown(ModuleContext context)
-    {
-        Console.WriteLine("[DemoModule] Shutting down...");
     }
 }

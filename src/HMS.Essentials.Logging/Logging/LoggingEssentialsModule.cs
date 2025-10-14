@@ -22,20 +22,11 @@ public class LoggingEssentialsModule : EssentialsModule
 
         // Register custom log service
         context.Services.AddSingleton<ILogService, LogService>();
-
-        Console.WriteLine("[LoggingModule] Services configured.");
     }
 
     public override void Initialize(ModuleContext context)
     {
         var logger = context.GetService<ILogger<LoggingEssentialsModule>>();
         logger?.LogInformation("Logging module initialized successfully.");
-
-        Console.WriteLine("[LoggingModule] Initialized.");
-    }
-
-    public override void Shutdown(ModuleContext context)
-    {
-        Console.WriteLine("[LoggingModule] Shutting down...");
     }
 }

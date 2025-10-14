@@ -1,6 +1,7 @@
 using System.Reflection;
 using HMS.Essentials.MediatR.Behaviors;
 using HMS.Essentials.Modularity;
+using HMS.Essentials.UnitOfWork;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,7 +14,8 @@ namespace HMS.Essentials.MediatR;
 [DependsOn(
     typeof(EssentialsMediatRCommandsModule),
     typeof(EssentialsMediatRQueriesModule),
-    typeof(EssentialsMediatRDomainEventsModule)
+    typeof(EssentialsMediatRDomainEventsModule),
+    typeof(EssentialsUnitOfWorkModule)
 )]
 public class EssentialsMediatRModule : EssentialsModule
 {
@@ -33,13 +35,6 @@ public class EssentialsMediatRModule : EssentialsModule
         context.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
         context.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(PerformanceBehavior<,>));
         context.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(UnitOfWorkBehavior<,>));
-
-        Console.WriteLine("[EssentialsMediatRModule] MediatR services configured.");
-    }
-
-    public override void Initialize(ModuleContext context)
-    {
-        Console.WriteLine("[EssentialsMediatRModule] MediatR module initialized.");
     }
 }
 

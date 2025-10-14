@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\test\HMS.Essentials.UnitOfWork.InMemoryDummy.Tests\HMS.Essentials.UnitOfWork.InMemoryDummy.Tests.csproj" />
     <ProjectReference Include="..\HMS.Essentials.Ddd.Application\HMS.Essentials.Ddd.Application.csproj" />
     <ProjectReference Include="..\HMS.Essentials.Logging\HMS.Essentials.Logging.csproj" />
     <ProjectReference Include="..\HMS.Essentials.Data\HMS.Essentials.Data.csproj" />

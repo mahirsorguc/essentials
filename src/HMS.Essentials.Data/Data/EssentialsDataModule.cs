@@ -17,20 +17,11 @@ public class EssentialsDataModule : EssentialsModule
     {
         // Register data services
         context.Services.AddSingleton<IDataRepository, DataRepository>();
-
-        Console.WriteLine("[DataModule] Services configured.");
     }
 
     public override void Initialize(ModuleContext context)
     {
         var logService = context.GetService<ILogService>();
         logService?.LogInfo("Data module initialized successfully.");
-
-        Console.WriteLine("[DataModule] Initialized.");
-    }
-
-    public override void Shutdown(ModuleContext context)
-    {
-        Console.WriteLine("[DataModule] Shutting down...");
     }
 }
