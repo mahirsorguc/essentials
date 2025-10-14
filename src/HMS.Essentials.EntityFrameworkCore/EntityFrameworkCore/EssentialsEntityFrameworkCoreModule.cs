@@ -1,6 +1,8 @@
 ﻿using HMS.Essentials.Domain;
 using HMS.Essentials.EntityFrameworkCore.Configuration;
+using HMS.Essentials.EntityFrameworkCore.DbContexts;
 using HMS.Essentials.EntityFrameworkCore.Extensions;
+using HMS.Essentials.EntityFrameworkCore.UnitOfWork;
 using HMS.Essentials.Modularity;
 using HMS.Essentials.UnitOfWork;
 using Microsoft.Extensions.DependencyInjection;
@@ -38,6 +40,7 @@ public class EssentialsEntityFrameworkCoreModule : EssentialsModule
 
         // Register connection string provider
         services.AddSingleton<IConnectionStringProvider, DefaultConnectionStringProvider>();
+        services.AddTransient<IUnitOfWork, EfCoreUnitOfWork<EfCoreDbContext>>();
     }
 
     /// <summary>
