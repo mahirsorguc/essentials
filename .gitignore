@@ -60,3 +60,7 @@
 /src/HMS.Essentials.Ddd.Application.Queries/obj
 /src/HMS.Essentials.Ddd.Domain.Events/bin
 /src/HMS.Essentials.Ddd.Domain.Events/obj
+/src/HMS.Essentials.EntityFrameworkCore/bin
+/src/HMS.Essentials.EntityFrameworkCore/obj
+/test/HMS.Essentials.EntityFrameworkCore.Tests/bin
+/test/HMS.Essentials.EntityFrameworkCore.Tests/obj
