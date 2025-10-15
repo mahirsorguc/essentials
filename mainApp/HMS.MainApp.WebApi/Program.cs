@@ -1,5 +1,5 @@
 using HMS.Essentials.Modularity;
-using HMS.MainApp;
+using HMS.MainApp.WebApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -55,7 +55,7 @@ static async Task DemonstrateLoadedModules(ApplicationHost app)
     }
 }
 
-namespace HMS.MainApp
+namespace HMS.MainApp.WebApi
 {
     record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
     {
