@@ -84,3 +84,5 @@
 /src/HMS.Essentials.AspNetCore/bin
 /test/HMS.Essentials.AspNetCore.Tests/bin
 /test/HMS.Essentials.AspNetCore.Tests/obj
+/src/HMS.Essentials.Swashbuckle/obj
+/src/HMS.Essentials.Swashbuckle/bin
