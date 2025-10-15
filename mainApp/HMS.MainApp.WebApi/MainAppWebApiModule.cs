@@ -12,4 +12,9 @@ namespace HMS.MainApp.WebApi;
 )]
 public class MainAppWebApiModule : EssentialsModule
 {
+    public override void ConfigureServices(ModuleContext context)
+    {
+        // Add controller services
+        context.Services.AddControllers();
+    }
 }
