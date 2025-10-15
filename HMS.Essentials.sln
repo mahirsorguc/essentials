@@ -80,6 +80,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HMS.MainApp.Domain.Shared",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HMS.MainApp.EntityFrameworkCore", "mainApp\HMS.MainApp.EntityFrameworkCore\HMS.MainApp.EntityFrameworkCore.csproj", "{A8833DBC-5550-435C-9EB3-2C2ACE7C6333}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HMS.Essentials.AspNetCore", "src\HMS.Essentials.AspNetCore\HMS.Essentials.AspNetCore.csproj", "{9B471FFF-508D-4DA3-98D4-B519C89420ED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -534,6 +536,18 @@ Global
 		{A8833DBC-5550-435C-9EB3-2C2ACE7C6333}.Release|x64.Build.0 = Release|Any CPU
 		{A8833DBC-5550-435C-9EB3-2C2ACE7C6333}.Release|x86.ActiveCfg = Release|Any CPU
 		{A8833DBC-5550-435C-9EB3-2C2ACE7C6333}.Release|x86.Build.0 = Release|Any CPU
+		{9B471FFF-508D-4DA3-98D4-B519C89420ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B471FFF-508D-4DA3-98D4-B519C89420ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B471FFF-508D-4DA3-98D4-B519C89420ED}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9B471FFF-508D-4DA3-98D4-B519C89420ED}.Debug|x64.Build.0 = Debug|Any CPU
+		{9B471FFF-508D-4DA3-98D4-B519C89420ED}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9B471FFF-508D-4DA3-98D4-B519C89420ED}.Debug|x86.Build.0 = Debug|Any CPU
+		{9B471FFF-508D-4DA3-98D4-B519C89420ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B471FFF-508D-4DA3-98D4-B519C89420ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B471FFF-508D-4DA3-98D4-B519C89420ED}.Release|x64.ActiveCfg = Release|Any CPU
+		{9B471FFF-508D-4DA3-98D4-B519C89420ED}.Release|x64.Build.0 = Release|Any CPU
+		{9B471FFF-508D-4DA3-98D4-B519C89420ED}.Release|x86.ActiveCfg = Release|Any CPU
+		{9B471FFF-508D-4DA3-98D4-B519C89420ED}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -576,5 +590,6 @@ Global
 		{86B58C5E-FA7F-4D06-A78E-B65AEE929E27} = {C75863E3-AAEE-4EEB-B296-F6F1D9F92AB1}
 		{70219BC0-271B-46A7-BEF9-2CED57D92F12} = {C75863E3-AAEE-4EEB-B296-F6F1D9F92AB1}
 		{A8833DBC-5550-435C-9EB3-2C2ACE7C6333} = {C75863E3-AAEE-4EEB-B296-F6F1D9F92AB1}
+		{9B471FFF-508D-4DA3-98D4-B519C89420ED} = {9C56C1FC-E865-4BA9-98C3-4564B99E6F99}
 	EndGlobalSection
 EndGlobal

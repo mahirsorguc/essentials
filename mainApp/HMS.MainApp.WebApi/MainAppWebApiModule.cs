@@ -1,6 +1,13 @@
-﻿namespace HMS.MainApp;
+﻿using HMS.Essentials.Modularity;
 
-public class MainAppWebApiModule
+namespace HMS.MainApp;
+
+[DependsOn(
+    typeof(MainAppApplicationModule),
+    typeof(MainAppApplicationCommandsModule),
+    typeof(MainAppApplicationQueriesModule),
+    typeof(MainAppEntityFrameworkCoreModule)
+)]
+public class MainAppWebApiModule : EssentialsModule
 {
-    
 }
