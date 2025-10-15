@@ -80,3 +80,5 @@
 /mainApp/HMS.MainApp.WebApi/bin
 /mainApp/HMS.MainApp.WebApi/obj
 /mainApp/HMS.MainApp.Domain.Shared/bin
+/src/HMS.Essentials.AspNetCore/obj
+/src/HMS.Essentials.AspNetCore/bin

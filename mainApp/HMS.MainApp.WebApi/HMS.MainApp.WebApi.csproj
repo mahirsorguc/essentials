@@ -9,13 +9,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.8"/>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.8" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\HMS.MainApp.Application.Commands\HMS.MainApp.Application.Commands.csproj" />
       <ProjectReference Include="..\HMS.MainApp.Application.Queries\HMS.MainApp.Application.Queries.csproj" />
+      <ProjectReference Include="..\HMS.MainApp.Application\HMS.MainApp.Application.csproj" />
       <ProjectReference Include="..\HMS.MainApp.EntityFrameworkCore\HMS.MainApp.EntityFrameworkCore.csproj" />
+      <ProjectReference Include="..\..\src\HMS.Essentials.AspNetCore\HMS.Essentials.AspNetCore.csproj" />
     </ItemGroup>
 
 </Project>
