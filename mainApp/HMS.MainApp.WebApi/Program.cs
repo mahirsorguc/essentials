@@ -1,4 +1,3 @@
-using HMS.Essentials.AspNetCore.Modularity;
 using HMS.Essentials.Modularity;
 using HMS.MainApp;
 

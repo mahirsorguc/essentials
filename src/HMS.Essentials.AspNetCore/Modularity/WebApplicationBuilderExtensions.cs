@@ -1,8 +1,7 @@
-using HMS.Essentials.Modularity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace HMS.Essentials.AspNetCore.Modularity;
+namespace HMS.Essentials.Modularity;
 
 /// <summary>
 /// Extension methods for integrating the HMS Essentials module system with ASP.NET Core WebApplicationBuilder.
