@@ -21,12 +21,6 @@ public class EssentialsMediatRModule : EssentialsModule
 {
     public override void ConfigureServices(ModuleContext context)
     {
-        // Register MediatR and scan this assembly for handlers/notifications
-        context.Services.AddMediatR(cfg =>
-        {
-            cfg.RegisterServicesFromAssembly(typeof(EssentialsMediatRModule).Assembly);
-        });
-
         // Register our custom mediator wrapper (optional - keeps a project-specific IMediator)
         context.Services.AddScoped<IMediator, Mediator>();
 

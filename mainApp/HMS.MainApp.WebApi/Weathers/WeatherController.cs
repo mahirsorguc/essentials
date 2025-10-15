@@ -1,4 +1,6 @@
+using HMS.MainApp.Weathers;
 using HMS.MainApp.WebApi.Controllers;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HMS.MainApp.WebApi.Weathers;
@@ -7,28 +9,25 @@ namespace HMS.MainApp.WebApi.Weathers;
 [Route("api/[controller]")]
 public class WeatherController : MainAppControllerBase
 {
-    private static readonly string[] Summaries = new[]
-    {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
+    private readonly IMediator _mediator;
 
-    [HttpGet("forecast")]
-    public IActionResult GetWeatherForecast()
+    public WeatherController(IMediator mediator)
     {
-        var forecast = Enumerable.Range(1, 5).Select(index =>
-                new WeatherForecast
-                (
-                    DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                    Random.Shared.Next(-20, 55),
-                    Summaries[Random.Shared.Next(Summaries.Length)]
-                ))
-            .ToArray();
-
-        return Ok(forecast);
+        _mediator = mediator;
     }
-}
 
-public record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    /// <summary>
+    /// Gets the weather forecast.
+    /// </summary>
+    /// <param name="days">Number of days to forecast (default: 5).</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>Weather forecast collection.</returns>
+    [HttpGet("forecast")]
+    [ProducesResponseType(typeof(IEnumerable<WeatherForecastDto>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetWeatherForecast([FromQuery] int days = 5, CancellationToken cancellationToken = default)
+    {
+        var query = new GetWeatherForecastQuery { Days = days };
+        var result = await _mediator.Send(query, cancellationToken);
+        return Ok(result);
+    }
 }
