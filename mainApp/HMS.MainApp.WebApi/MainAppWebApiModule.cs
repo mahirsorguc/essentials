@@ -1,6 +1,6 @@
 ﻿using HMS.Essentials.Modularity;
 
-namespace HMS.MainApp;
+namespace HMS.MainApp.WebApi;
 
 [DependsOn(
     typeof(MainAppApplicationModule),
