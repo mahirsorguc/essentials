@@ -1,7 +1,5 @@
-using HMS.Essentials.MediatR;
 using HMS.Essentials.Modularity;
 using HMS.Essentials.Swashbuckle.Extensions;
-using HMS.MainApp;
 using HMS.MainApp.WebApi;
 
 var builder = WebApplication.CreateBuilder(args);

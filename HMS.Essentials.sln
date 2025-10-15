@@ -88,6 +88,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HMS.Essentials.Swashbuckle"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HMS.Essentials.Swashbuckle.Tests", "test\HMS.Essentials.Swashbuckle.Tests\HMS.Essentials.Swashbuckle.Tests.csproj", "{869EC8D6-2C42-44ED-8BFC-AC729CBCDCFC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HMS.Essentials.AutoMapper", "src\HMS.Essentials.AutoMapper\HMS.Essentials.AutoMapper.csproj", "{923709EE-4814-45B3-8ECE-DEEFA4D5A975}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -590,6 +592,18 @@ Global
 		{869EC8D6-2C42-44ED-8BFC-AC729CBCDCFC}.Release|x64.Build.0 = Release|Any CPU
 		{869EC8D6-2C42-44ED-8BFC-AC729CBCDCFC}.Release|x86.ActiveCfg = Release|Any CPU
 		{869EC8D6-2C42-44ED-8BFC-AC729CBCDCFC}.Release|x86.Build.0 = Release|Any CPU
+		{923709EE-4814-45B3-8ECE-DEEFA4D5A975}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{923709EE-4814-45B3-8ECE-DEEFA4D5A975}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{923709EE-4814-45B3-8ECE-DEEFA4D5A975}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{923709EE-4814-45B3-8ECE-DEEFA4D5A975}.Debug|x64.Build.0 = Debug|Any CPU
+		{923709EE-4814-45B3-8ECE-DEEFA4D5A975}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{923709EE-4814-45B3-8ECE-DEEFA4D5A975}.Debug|x86.Build.0 = Debug|Any CPU
+		{923709EE-4814-45B3-8ECE-DEEFA4D5A975}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{923709EE-4814-45B3-8ECE-DEEFA4D5A975}.Release|Any CPU.Build.0 = Release|Any CPU
+		{923709EE-4814-45B3-8ECE-DEEFA4D5A975}.Release|x64.ActiveCfg = Release|Any CPU
+		{923709EE-4814-45B3-8ECE-DEEFA4D5A975}.Release|x64.Build.0 = Release|Any CPU
+		{923709EE-4814-45B3-8ECE-DEEFA4D5A975}.Release|x86.ActiveCfg = Release|Any CPU
+		{923709EE-4814-45B3-8ECE-DEEFA4D5A975}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -636,5 +650,6 @@ Global
 		{EE9F3F1E-BF43-4430-AF52-9D55D2E5943D} = {C2CF01BC-478A-4C2D-BBE8-10F22DCF0C54}
 		{81CB82C1-55BD-4530-84F9-F4B606A45425} = {9C56C1FC-E865-4BA9-98C3-4564B99E6F99}
 		{869EC8D6-2C42-44ED-8BFC-AC729CBCDCFC} = {C2CF01BC-478A-4C2D-BBE8-10F22DCF0C54}
+		{923709EE-4814-45B3-8ECE-DEEFA4D5A975} = {9C56C1FC-E865-4BA9-98C3-4564B99E6F99}
 	EndGlobalSection
 EndGlobal
