@@ -1,11 +1,8 @@
 using HMS.Essentials.Modularity;
+using HMS.Essentials.Swashbuckle.Extensions;
 using HMS.MainApp.WebApi;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
 
 // Add HMS Essentials module system to the application
 builder.AddModuleSystem<MainAppWebApiModule>();
@@ -15,7 +12,8 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    // Use Swagger documentation
+    app.UseSwaggerDocumentation();
 }
 
 app.UseHttpsRedirection();
