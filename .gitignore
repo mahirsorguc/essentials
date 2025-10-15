@@ -82,3 +82,5 @@
 /mainApp/HMS.MainApp.Domain.Shared/bin
 /src/HMS.Essentials.AspNetCore/obj
 /src/HMS.Essentials.AspNetCore/bin
+/test/HMS.Essentials.AspNetCore.Tests/bin
+/test/HMS.Essentials.AspNetCore.Tests/obj
