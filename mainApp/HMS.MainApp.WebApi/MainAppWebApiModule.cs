@@ -1,10 +1,12 @@
-﻿using HMS.Essentials.MediatR;
+﻿using HMS.Essentials.AspNetCore.Serilog;
+using HMS.Essentials.MediatR;
 using HMS.Essentials.Modularity;
 using HMS.Essentials.Swashbuckle;
 
 namespace HMS.MainApp.WebApi;
 
 [DependsOn(
+    typeof(EssentialsAspNetCoreSerilogModule),
     typeof(EssentialsSwashbuckleModule),
     typeof(MainAppApplicationModule),
     typeof(MainAppApplicationCommandsModule),
