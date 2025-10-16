@@ -9,13 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="AutoMapper" Version="12.0.1" />
-      <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\HMS.Essentials.Core\HMS.Essentials.Core.csproj" />
-      <ProjectReference Include="..\HMS.Essentials.ObjectMapping\HMS.Essentials.ObjectMapping.csproj" />
     </ItemGroup>
 
 </Project>
