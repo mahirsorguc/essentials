@@ -96,6 +96,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HMS.Essentials.ObjectMappin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HMS.Essentials.AutoMapper.Tests", "test\HMS.Essentials.AutoMapper.Tests\HMS.Essentials.AutoMapper.Tests.csproj", "{5EF2C8A4-7F30-401E-B19F-5C71086A9767}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HMS.Essentials.AspNetCore.Serilog", "src\HMS.Essentials.AspNetCore.Serilog\HMS.Essentials.AspNetCore.Serilog.csproj", "{C5672076-56CE-4421-AF7F-E21C64A642DE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -646,6 +648,18 @@ Global
 		{5EF2C8A4-7F30-401E-B19F-5C71086A9767}.Release|x64.Build.0 = Release|Any CPU
 		{5EF2C8A4-7F30-401E-B19F-5C71086A9767}.Release|x86.ActiveCfg = Release|Any CPU
 		{5EF2C8A4-7F30-401E-B19F-5C71086A9767}.Release|x86.Build.0 = Release|Any CPU
+		{C5672076-56CE-4421-AF7F-E21C64A642DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5672076-56CE-4421-AF7F-E21C64A642DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5672076-56CE-4421-AF7F-E21C64A642DE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C5672076-56CE-4421-AF7F-E21C64A642DE}.Debug|x64.Build.0 = Debug|Any CPU
+		{C5672076-56CE-4421-AF7F-E21C64A642DE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C5672076-56CE-4421-AF7F-E21C64A642DE}.Debug|x86.Build.0 = Debug|Any CPU
+		{C5672076-56CE-4421-AF7F-E21C64A642DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5672076-56CE-4421-AF7F-E21C64A642DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5672076-56CE-4421-AF7F-E21C64A642DE}.Release|x64.ActiveCfg = Release|Any CPU
+		{C5672076-56CE-4421-AF7F-E21C64A642DE}.Release|x64.Build.0 = Release|Any CPU
+		{C5672076-56CE-4421-AF7F-E21C64A642DE}.Release|x86.ActiveCfg = Release|Any CPU
+		{C5672076-56CE-4421-AF7F-E21C64A642DE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -696,5 +710,6 @@ Global
 		{64BBECE9-7B7F-43B9-9412-0EB7AE6D8DAA} = {9C56C1FC-E865-4BA9-98C3-4564B99E6F99}
 		{0E713BA5-5DC3-439F-80B7-B1A20DC9BAFA} = {C2CF01BC-478A-4C2D-BBE8-10F22DCF0C54}
 		{5EF2C8A4-7F30-401E-B19F-5C71086A9767} = {C2CF01BC-478A-4C2D-BBE8-10F22DCF0C54}
+		{C5672076-56CE-4421-AF7F-E21C64A642DE} = {9C56C1FC-E865-4BA9-98C3-4564B99E6F99}
 	EndGlobalSection
 EndGlobal

@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\src\HMS.Essentials.AspNetCore.Serilog\HMS.Essentials.AspNetCore.Serilog.csproj" />
       <ProjectReference Include="..\..\src\HMS.Essentials.Swashbuckle\HMS.Essentials.Swashbuckle.csproj" />
       <ProjectReference Include="..\HMS.MainApp.Application.Commands\HMS.MainApp.Application.Commands.csproj" />
       <ProjectReference Include="..\HMS.MainApp.Application.Queries\HMS.MainApp.Application.Queries.csproj" />
