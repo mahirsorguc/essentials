@@ -88,7 +88,7 @@ public class AggregateRootTests
     public void AggregateRoot_ShouldInheritFromEntity()
     {
         // Arrange & Act
-        var aggregate = new TestAggregateRoot { Id = 123 };
+        var aggregate = new TestAggregateRoot(123);
 
         // Assert
         aggregate.ShouldBeAssignableTo<Entity<int>>();
@@ -141,7 +141,7 @@ public class AggregateRootTests
     public void AggregateRoot_WithIntKey_ShouldWorkCorrectly()
     {
         // Arrange & Act
-        var aggregate = new TestIntAggregateRoot { Id = 42 };
+        var aggregate = new TestIntAggregateRoot(42);
 
         // Assert
         aggregate.ShouldBeAssignableTo<AggregateRoot>();
@@ -151,6 +151,14 @@ public class AggregateRootTests
     // Test classes
     private class TestAggregateRoot : AggregateRoot<int>
     {
+        public TestAggregateRoot() : base()
+        {
+        }
+        
+        public TestAggregateRoot(int id) : base(id)
+        {
+        }
+        
         public void AddTestDomainEvent(IDomainEvent domainEvent)
         {
             AddDomainEvent(domainEvent);
@@ -168,6 +176,13 @@ public class AggregateRootTests
 
     private class TestIntAggregateRoot : AggregateRoot
     {
+        public TestIntAggregateRoot() : base()
+        {
+        }
+        
+        public TestIntAggregateRoot(int id) : base(id)
+        {
+        }
     }
 
     private class TestDomainEvent : IDomainEvent

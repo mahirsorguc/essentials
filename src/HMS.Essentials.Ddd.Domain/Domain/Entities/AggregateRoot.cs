@@ -9,7 +9,17 @@ namespace HMS.Essentials.Domain.Entities;
 /// </summary>
 /// <typeparam name="TKey">Type of the primary key.</typeparam>
 public abstract class AggregateRoot<TKey> : Entity<TKey>, IAggregateRoot<TKey>
-{
+{ 
+    protected AggregateRoot()
+    {
+        
+    }
+    
+    protected AggregateRoot(TKey id) : base(id)
+    {
+        
+    }
+    
     private readonly List<IDomainEvent> _domainEvents = new();
 
     /// <summary>
@@ -49,6 +59,15 @@ public abstract class AggregateRoot<TKey> : Entity<TKey>, IAggregateRoot<TKey>
 /// </summary>
 public abstract class AggregateRoot : AggregateRoot<int>
 {
+    public AggregateRoot()
+    {
+        
+    }
+
+    public AggregateRoot(int id):base(id)
+    {
+        
+    }
 }
 
 /// <summary>
@@ -56,8 +75,13 @@ public abstract class AggregateRoot : AggregateRoot<int>
 /// </summary>
 public abstract class GuidAggregateRoot : AggregateRoot<Guid>
 {
-    protected GuidAggregateRoot()
+    public GuidAggregateRoot() : base(Guid.NewGuid())
     {
-        Id = Guid.NewGuid();
+        
+    }
+    
+    public GuidAggregateRoot(Guid id) : base(id)
+    {
+        
     }
 }

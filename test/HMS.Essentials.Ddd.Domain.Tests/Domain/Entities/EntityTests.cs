@@ -6,6 +6,14 @@ public class EntityTests
 {
     private class TestEntity : Entity<int>
     {
+        public TestEntity() : base()
+        {
+        }
+        
+        public TestEntity(int id) : base(id)
+        {
+        }
+        
         public string Name { get; set; } = string.Empty;
     }
 
@@ -13,7 +21,7 @@ public class EntityTests
     public void Entity_WithIntKey_ShouldInitialize()
     {
         // Arrange & Act
-        var entity = new TestEntity { Id = 1, Name = "Test" };
+        var entity = new TestEntity(1) { Name = "Test" };
 
         // Assert
         entity.Id.ShouldBe(1);
@@ -34,7 +42,7 @@ public class EntityTests
     public void Entity_WithNonDefaultId_ShouldNotBeTransient()
     {
         // Arrange & Act
-        var entity = new TestEntity { Id = 1 };
+        var entity = new TestEntity(1);
 
         // Assert
         entity.IsTransient().ShouldBeFalse();

@@ -6,8 +6,18 @@ namespace HMS.Essentials.Domain.Entities;
 /// <typeparam name="TKey">Type of the primary key.</typeparam>
 public abstract class Entity<TKey> : IEntity<TKey>
 {
+    protected Entity()
+    {
+        
+    }
+    
+    protected Entity(TKey id)
+    {
+        Id = id;
+    }
+
     /// <inheritdoc/>
-    public virtual TKey Id { get; set; } = default!;
+    public virtual TKey Id { get; }
 
     /// <inheritdoc/>
     public virtual object[] GetKeys()
@@ -110,6 +120,13 @@ public abstract class Entity<TKey> : IEntity<TKey>
 /// </summary>
 public abstract class Entity : Entity<int>
 {
+    public Entity()
+    {
+        
+    }
+    protected Entity(int id) : base(id)
+    {
+    }
 }
 
 /// <summary>
@@ -117,8 +134,12 @@ public abstract class Entity : Entity<int>
 /// </summary>
 public abstract class GuidEntity : Entity<Guid>
 {
-    protected GuidEntity()
+    public GuidEntity()
     {
-        Id = Guid.NewGuid();
+        
+    }
+    
+    protected GuidEntity(Guid id) : base(id)
+    {
     }
 }

@@ -21,5 +21,5 @@ public interface IEntity<TKey> : IEntity
     /// <summary>
     /// Gets or sets the unique identifier of the entity.
     /// </summary>
-    TKey Id { get; set; }
+    TKey Id { get; }
 }
