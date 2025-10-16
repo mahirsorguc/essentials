@@ -88,3 +88,11 @@
 /src/HMS.Essentials.Swashbuckle/bin
 /test/HMS.Essentials.Swashbuckle.Tests/bin
 /test/HMS.Essentials.Swashbuckle.Tests/obj
+/src/HMS.Essentials.AutoMapper/bin
+/src/HMS.Essentials.AutoMapper/obj
+/src/HMS.Essentials.ObjectMapping/bin
+/src/HMS.Essentials.ObjectMapping/obj
+/test/HMS.Essentials.AutoMapper.Tests/bin
+/test/HMS.Essentials.AutoMapper.Tests/obj
+/test/HMS.Essentials.ObjectMapping.Tests/bin
+/test/HMS.Essentials.ObjectMapping.Tests/obj

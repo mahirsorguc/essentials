@@ -1,4 +1,5 @@
 ﻿using HMS.Essentials.Application;
+using HMS.Essentials.AutoMapper.Extensions;
 using HMS.Essentials.Modularity;
 
 namespace HMS.MainApp;
@@ -11,4 +12,9 @@ namespace HMS.MainApp;
 )]
 public class MainAppApplicationModule : EssentialsModule
 {
+    public override void ConfigureServices(ModuleContext context)
+    {
+        // Register AutoMapper and scan for profiles in the current assembly
+        context.Services.AddEssentialsAutoMapper(typeof(MainAppApplicationModule).Assembly);
+    }
 }

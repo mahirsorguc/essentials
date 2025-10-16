@@ -1,7 +1,6 @@
 using HMS.Essentials.MediatR;
-using HMS.MainApp.Weathers;
 
-namespace HMS.MainApp.Application.Weathers;
+namespace HMS.MainApp.Weathers;
 
 /// <summary>
 /// Handler for getting weather forecast.
