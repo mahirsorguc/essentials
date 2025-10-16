@@ -1,10 +1,13 @@
+using HMS.Essentials.AspNetCore.Serilog.Extensions;
 using HMS.Essentials.Modularity;
 using HMS.Essentials.Swashbuckle.Extensions;
 using HMS.MainApp.WebApi;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
+// Configure Serilog logging (must be called before AddModuleSystem)
+builder.AddSerilogLogging();
 
 // Add HMS Essentials module system to the application
 builder.AddModuleSystem<MainAppWebApiModule>();
@@ -18,6 +21,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerDocumentation();
 }
 
+// Use Serilog request logging
+app.UseEssentialsSerilogRequestLogging();
+
 app.UseHttpsRedirection();
 
 // Map controller endpoints
@@ -27,7 +33,19 @@ app.MapControllers();
 var appHost = app.GetApplicationHost();
 await DemonstrateLoadedModules(appHost);
 
-app.Run();
+try
+{
+    Log.Information("Starting HMS Main Application Web API");
+    app.Run();
+}
+catch (Exception ex)
+{
+    Log.Fatal(ex, "Application terminated unexpectedly");
+}
+finally
+{
+    Log.CloseAndFlush();
+}
 
 static async Task DemonstrateLoadedModules(ApplicationHost app)
 {

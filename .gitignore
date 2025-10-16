@@ -98,3 +98,4 @@
 /test/HMS.Essentials.ObjectMapping.Tests/obj
 /src/HMS.Essentials.AspNetCore.Serilog/bin
 /src/HMS.Essentials.AspNetCore.Serilog/obj
+/mainApp/HMS.MainApp.WebApi/Logs
