@@ -60,19 +60,22 @@ public class InMemoryRepository<TEntity, TKey> : RepositoryBase<TEntity, TKey>
         lock (_lockObject)
         {
             // Generate ID for new entities if needed (only for int and long types with default values)
-            if (EqualityComparer<TKey>.Default.Equals(entity.Id, default) && typeof(TKey) == typeof(int))
+            if (EqualityComparer<TKey>.Default.Equals(entity.Id, default))
             {
-                var maxId = _entities.Keys.Any() 
-                    ? _entities.Keys.Max(k => Convert.ToInt32(k)) 
-                    : 0;
-                entity.Id = (TKey)(object)(maxId + 1);
-            }
-            else if (EqualityComparer<TKey>.Default.Equals(entity.Id, default) && typeof(TKey) == typeof(long))
-            {
-                var maxId = _entities.Keys.Any() 
-                    ? _entities.Keys.Max(k => Convert.ToInt64(k)) 
-                    : 0L;
-                entity.Id = (TKey)(object)(maxId + 1L);
+                if (typeof(TKey) == typeof(int))
+                {
+                    var maxId = _entities.Keys.Any() 
+                        ? _entities.Keys.Max(k => Convert.ToInt32(k)) 
+                        : 0;
+                    SetEntityId(entity, (TKey)(object)(maxId + 1));
+                }
+                else if (typeof(TKey) == typeof(long))
+                {
+                    var maxId = _entities.Keys.Any() 
+                        ? _entities.Keys.Max(k => Convert.ToInt64(k)) 
+                        : 0L;
+                    SetEntityId(entity, (TKey)(object)(maxId + 1L));
+                }
             }
 
             if (!_entities.TryAdd(entity.Id, entity))
@@ -126,6 +129,48 @@ public class InMemoryRepository<TEntity, TKey> : RepositoryBase<TEntity, TKey>
     {
         // In-memory repository doesn't need to save changes
         return Task.FromResult(0);
+    }
+
+    /// <summary>
+    /// Sets the entity ID using reflection (for testing purposes only).
+    /// </summary>
+    private static void SetEntityId(TEntity entity, TKey id)
+    {
+        var propertyInfo = typeof(TEntity).GetProperty(nameof(IEntity<TKey>.Id));
+        if (propertyInfo != null && propertyInfo.CanWrite)
+        {
+            propertyInfo.SetValue(entity, id);
+            return;
+        }
+
+        // Property is read-only, need to set the backing field
+        // Try to find the backing field in the entity type hierarchy
+        var currentType = typeof(TEntity);
+        while (currentType != null && currentType != typeof(object))
+        {
+            // Try auto-property backing field pattern
+            var backingField = currentType.GetField($"<{nameof(IEntity<TKey>.Id)}>k__BackingField",
+                System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+            
+            if (backingField != null)
+            {
+                backingField.SetValue(entity, id);
+                return;
+            }
+
+            // Try other common patterns
+            backingField = currentType.GetFields(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.DeclaredOnly)
+                .FirstOrDefault(f => f.Name.Equals("_id", StringComparison.OrdinalIgnoreCase) || 
+                                     f.Name.Contains("id", StringComparison.OrdinalIgnoreCase));
+            
+            if (backingField != null)
+            {
+                backingField.SetValue(entity, id);
+                return;
+            }
+
+            currentType = currentType.BaseType;
+        }
     }
 
     /// <summary>

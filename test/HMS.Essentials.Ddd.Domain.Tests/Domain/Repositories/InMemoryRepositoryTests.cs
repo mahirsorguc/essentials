@@ -7,6 +7,14 @@ public class InMemoryRepositoryTests
 {
     private class TestProduct : Entity<int>
     {
+        public TestProduct() : base()
+        {
+        }
+        
+        public TestProduct(int id) : base(id)
+        {
+        }
+        
         public string Name { get; set; } = string.Empty;
         public decimal Price { get; set; }
     }
