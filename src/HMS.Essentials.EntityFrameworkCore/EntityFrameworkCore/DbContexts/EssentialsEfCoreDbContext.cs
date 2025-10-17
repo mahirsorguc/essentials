@@ -9,24 +9,24 @@ namespace HMS.Essentials.EntityFrameworkCore.DbContexts;
 /// Base class for Entity Framework Core DbContext with enhanced functionality.
 /// Provides support for domain events, soft delete, auditing, and advanced tracking.
 /// </summary>
-public abstract class EfCoreDbContext : DbContext
+public abstract class EssentialsEfCoreDbContext : DbContext
 {
     private readonly ILogger? _logger;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="EfCoreDbContext"/> class.
+    /// Initializes a new instance of the <see cref="EssentialsEfCoreDbContext"/> class.
     /// </summary>
     /// <param name="options">The options to be used by the DbContext.</param>
-    protected EfCoreDbContext(DbContextOptions options) : base(options)
+    protected EssentialsEfCoreDbContext(DbContextOptions options) : base(options)
     {
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="EfCoreDbContext"/> class with logging support.
+    /// Initializes a new instance of the <see cref="EssentialsEfCoreDbContext"/> class with logging support.
     /// </summary>
     /// <param name="options">The options to be used by the DbContext.</param>
     /// <param name="logger">The logger instance.</param>
-    protected EfCoreDbContext(DbContextOptions options, ILogger logger) : base(options)
+    protected EssentialsEfCoreDbContext(DbContextOptions options, ILogger logger) : base(options)
     {
         _logger = logger;
     }
