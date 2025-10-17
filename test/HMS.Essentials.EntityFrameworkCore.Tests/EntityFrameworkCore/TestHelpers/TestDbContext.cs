@@ -7,7 +7,7 @@ namespace HMS.Essentials.EntityFrameworkCore.TestHelpers;
 /// <summary>
 /// Test DbContext for unit tests.
 /// </summary>
-public class TestDbContext : EfCoreDbContext
+public class TestDbContext : EssentialsEfCoreDbContext
 {
     public TestDbContext(DbContextOptions<TestDbContext> options) : base(options)
     {

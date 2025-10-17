@@ -6,11 +6,11 @@ using Moq;
 
 namespace HMS.Essentials.EntityFrameworkCore.DbContexts;
 
-public class EfCoreDbContextTests : IDisposable
+public class EssentialsEfCoreDbContextTests : IDisposable
 {
     private readonly TestDbContext _context;
 
-    public EfCoreDbContextTests()
+    public EssentialsEfCoreDbContextTests()
     {
         _context = DbContextHelper.CreateInMemoryContext(Guid.NewGuid().ToString());
     }

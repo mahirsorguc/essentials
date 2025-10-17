@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace HMS.Essentials.Domain.Entities;
 
 /// <summary>
@@ -17,7 +19,8 @@ public abstract class Entity<TKey> : IEntity<TKey>
     }
 
     /// <inheritdoc/>
-    public virtual TKey Id { get; }
+    [Key]
+    public virtual TKey Id { get; protected set; } = default!;
 
     /// <inheritdoc/>
     public virtual object[] GetKeys()
