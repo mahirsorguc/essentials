@@ -40,7 +40,6 @@ public class EssentialsEntityFrameworkCoreModule : EssentialsModule
 
         // Register connection string provider
         services.AddSingleton<IConnectionStringProvider, DefaultConnectionStringProvider>();
-        services.AddTransient<IUnitOfWork, EfCoreUnitOfWork<EssentialsEfCoreDbContext>>();
     }
 
     /// <summary>
