@@ -1,5 +1,6 @@
 ﻿using HMS.Essentials.Application;
 using HMS.Essentials.AutoMapper.Extensions;
+using HMS.Essentials.FluentValidation.Extensions;
 using HMS.Essentials.Modularity;
 
 namespace HMS.MainApp;
@@ -16,5 +17,7 @@ public class MainAppApplicationModule : EssentialsModule
     {
         // Register AutoMapper and scan for profiles in the current assembly
         context.Services.AddEssentialsAutoMapper(typeof(MainAppApplicationModule).Assembly);
+
+        context.Services.AddValidatorsFromAssembly(typeof(MainAppApplicationModule).Assembly);
     }
 }
