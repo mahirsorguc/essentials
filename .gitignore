@@ -105,3 +105,5 @@
 /test/HMS.Essentials.MediatR.Attributes.Tests/obj
 /test/HMS.Essentials.UnitOfWork.Tests/bin
 /test/HMS.Essentials.UnitOfWork.Tests/obj
+/src/HMS.Essentials.FluentValidation/bin
+/src/HMS.Essentials.FluentValidation/obj

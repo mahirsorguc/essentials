@@ -1,4 +1,5 @@
 using System.Reflection;
+using HMS.Essentials.FluentValidation;
 using HMS.Essentials.MediatR.Behaviors;
 using HMS.Essentials.Modularity;
 using HMS.Essentials.UnitOfWork;
@@ -15,7 +16,8 @@ namespace HMS.Essentials.MediatR;
     typeof(EssentialsMediatRCommandsModule),
     typeof(EssentialsMediatRQueriesModule),
     typeof(EssentialsMediatRDomainEventsModule),
-    typeof(EssentialsUnitOfWorkModule)
+    typeof(EssentialsUnitOfWorkModule),
+    typeof(EssentialsFluentValidationModule)
 )]
 public class EssentialsMediatRModule : EssentialsModule
 {

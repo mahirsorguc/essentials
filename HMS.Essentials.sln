@@ -104,6 +104,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HMS.Essentials.MediatR.Attr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HMS.Essentials.UnitOfWork.Tests", "test\HMS.Essentials.UnitOfWork.Tests\HMS.Essentials.UnitOfWork.Tests.csproj", "{627E24B3-A156-4ACD-97FF-98C88BBF76A4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HMS.Essentials.FluentValidation", "src\HMS.Essentials.FluentValidation\HMS.Essentials.FluentValidation.csproj", "{679F2E66-A366-4D7A-A43A-2696CB4B1B55}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -702,6 +704,18 @@ Global
 		{627E24B3-A156-4ACD-97FF-98C88BBF76A4}.Release|x64.Build.0 = Release|Any CPU
 		{627E24B3-A156-4ACD-97FF-98C88BBF76A4}.Release|x86.ActiveCfg = Release|Any CPU
 		{627E24B3-A156-4ACD-97FF-98C88BBF76A4}.Release|x86.Build.0 = Release|Any CPU
+		{679F2E66-A366-4D7A-A43A-2696CB4B1B55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{679F2E66-A366-4D7A-A43A-2696CB4B1B55}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{679F2E66-A366-4D7A-A43A-2696CB4B1B55}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{679F2E66-A366-4D7A-A43A-2696CB4B1B55}.Debug|x64.Build.0 = Debug|Any CPU
+		{679F2E66-A366-4D7A-A43A-2696CB4B1B55}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{679F2E66-A366-4D7A-A43A-2696CB4B1B55}.Debug|x86.Build.0 = Debug|Any CPU
+		{679F2E66-A366-4D7A-A43A-2696CB4B1B55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{679F2E66-A366-4D7A-A43A-2696CB4B1B55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{679F2E66-A366-4D7A-A43A-2696CB4B1B55}.Release|x64.ActiveCfg = Release|Any CPU
+		{679F2E66-A366-4D7A-A43A-2696CB4B1B55}.Release|x64.Build.0 = Release|Any CPU
+		{679F2E66-A366-4D7A-A43A-2696CB4B1B55}.Release|x86.ActiveCfg = Release|Any CPU
+		{679F2E66-A366-4D7A-A43A-2696CB4B1B55}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -756,5 +770,6 @@ Global
 		{807DE1BF-A87D-4DAB-9B96-AF97C5F2CDBD} = {C2CF01BC-478A-4C2D-BBE8-10F22DCF0C54}
 		{51DBCD06-A87A-418A-A7E4-A0817507142B} = {C2CF01BC-478A-4C2D-BBE8-10F22DCF0C54}
 		{627E24B3-A156-4ACD-97FF-98C88BBF76A4} = {C2CF01BC-478A-4C2D-BBE8-10F22DCF0C54}
+		{679F2E66-A366-4D7A-A43A-2696CB4B1B55} = {9C56C1FC-E865-4BA9-98C3-4564B99E6F99}
 	EndGlobalSection
 EndGlobal
