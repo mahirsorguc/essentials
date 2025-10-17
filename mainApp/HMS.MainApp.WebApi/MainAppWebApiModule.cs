@@ -2,6 +2,7 @@
 using HMS.Essentials.MediatR;
 using HMS.Essentials.Modularity;
 using HMS.Essentials.Swashbuckle;
+using HMS.MainApp.EntityFrameworkCore;
 
 namespace HMS.MainApp.WebApi;
 
