@@ -99,3 +99,9 @@
 /src/HMS.Essentials.AspNetCore.Serilog/bin
 /src/HMS.Essentials.AspNetCore.Serilog/obj
 /mainApp/HMS.MainApp.WebApi/Logs
+/test/HMS.Essentials.AspNetCore.Serilog.Tests/bin
+/test/HMS.Essentials.AspNetCore.Serilog.Tests/obj
+/test/HMS.Essentials.MediatR.Attributes.Tests/bin
+/test/HMS.Essentials.MediatR.Attributes.Tests/obj
+/test/HMS.Essentials.UnitOfWork.Tests/bin
+/test/HMS.Essentials.UnitOfWork.Tests/obj
