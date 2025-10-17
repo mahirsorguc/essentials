@@ -1,7 +1,6 @@
 ﻿using System.Reflection;
 using FluentValidation;
 using HMS.Essentials.FluentValidation.AspNetCore;
-using HMS.Essentials.FluentValidation.Extensions;
 using HMS.Essentials.Modularity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -39,13 +38,13 @@ public class EssentialsFluentValidationModule : EssentialsModule
         // Scan and register validators from configured assemblies
         if (config.AssembliesToScan.Any())
         {
-            var assembliesToScan = LoadAssemblies(config.AssembliesToScan);
-            foreach (var assembly in assembliesToScan)
+            var assembliesToScan = LoadAssemblies(config.AssembliesToScan, context);
+            if (assembliesToScan.Any())
             {
                 // Use FluentValidation's built-in registration
-                global::FluentValidation.ServiceCollectionExtensions.AddValidatorsFromAssembly(
+                ServiceCollectionExtensions.AddValidatorsFromAssemblies(
                     context.Services, 
-                    assembly, 
+                    assembliesToScan, 
                     ServiceLifetime.Scoped);
             }
         }
@@ -113,9 +112,10 @@ public class EssentialsFluentValidationModule : EssentialsModule
     /// <summary>
     /// Loads assemblies by name.
     /// </summary>
-    private IEnumerable<Assembly> LoadAssemblies(List<string> assemblyNames)
+    private IEnumerable<Assembly> LoadAssemblies(List<string> assemblyNames, ModuleContext context)
     {
         var assemblies = new List<Assembly>();
+        var logger = context.ServiceProvider?.GetService<ILogger<EssentialsFluentValidationModule>>();
 
         foreach (var assemblyName in assemblyNames)
         {
@@ -126,8 +126,10 @@ public class EssentialsFluentValidationModule : EssentialsModule
             }
             catch (Exception ex)
             {
-                throw new InvalidOperationException(
-                    $"Failed to load assembly '{assemblyName}' for validator scanning.", ex);
+                // Log warning and continue instead of throwing
+                logger?.LogWarning(ex, 
+                    "Failed to load assembly '{AssemblyName}' for validator scanning. Skipping this assembly.", 
+                    assemblyName);
             }
         }
 

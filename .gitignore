@@ -107,3 +107,5 @@
 /test/HMS.Essentials.UnitOfWork.Tests/obj
 /src/HMS.Essentials.FluentValidation/bin
 /src/HMS.Essentials.FluentValidation/obj
+/test/HMS.Essentials.FluentValidation.Tests/bin
+/test/HMS.Essentials.FluentValidation.Tests/obj
