@@ -24,7 +24,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\HMS.Essentials.MediatR\HMS.Essentials.MediatR.csproj" />
-    <ProjectReference Include="..\..\src\HMS.Essentials.UnitOfWork.InMemoryDummy\HMS.Essentials.UnitOfWork.InMemoryDummy.csproj" />
   </ItemGroup>
 
 </Project>
