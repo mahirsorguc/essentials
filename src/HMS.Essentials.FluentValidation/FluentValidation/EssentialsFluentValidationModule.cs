@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using FluentValidation;
-using HMS.Essentials.FluentValidation.AspNetCore;
+using HMS.Essentials.FluentValidation.Extensions;
 using HMS.Essentials.Modularity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -47,12 +47,6 @@ public class EssentialsFluentValidationModule : EssentialsModule
                     assembliesToScan, 
                     ServiceLifetime.Scoped);
             }
-        }
-
-        // Configure ASP.NET Core integration if enabled
-        if (config.AspNetCore.EnableAutoValidation)
-        {
-            ConfigureAspNetCoreValidation(context.Services, config.AspNetCore);
         }
     }
 
@@ -134,29 +128,6 @@ public class EssentialsFluentValidationModule : EssentialsModule
         }
 
         return assemblies;
-    }
-
-    /// <summary>
-    /// Configures ASP.NET Core validation integration.
-    /// </summary>
-    private void ConfigureAspNetCoreValidation(
-        IServiceCollection services,
-        AspNetCoreValidationOptions options)
-    {
-        // Add FluentValidation for ASP.NET Core
-        services.AddFluentValidationForAspNetCore(options.DisableDataAnnotationsValidation);
-
-        // Configure client-side validation if enabled
-        if (options.EnableClientSideValidation)
-        {
-            services.AddFluentValidationClientSide();
-        }
-
-        // Configure standardized error responses if enabled
-        if (options.UseStandardErrorResponse)
-        {
-            services.UseStandardValidationErrorResponse(options.IncludeErrorDetails);
-        }
     }
 
     /// <summary>
