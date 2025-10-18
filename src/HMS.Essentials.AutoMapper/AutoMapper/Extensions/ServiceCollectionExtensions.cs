@@ -30,14 +30,18 @@ public static class ServiceCollectionExtensions
             ? assemblies 
             : new[] { Assembly.GetCallingAssembly() };
 
-        // Configure AutoMapper
-        services.AddSingleton<IMapper>(provider =>
+        // Configure AutoMapper (15.0.1+)
+        // AutoMapper 15.0+ requires ILoggerFactory as second parameter in constructor
+        services.AddSingleton<IMapper>(sp =>
         {
+            var loggerFactory = sp.GetService<Microsoft.Extensions.Logging.ILoggerFactory>()
+                ?? Microsoft.Extensions.Logging.Abstractions.NullLoggerFactory.Instance;
+            
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.AddMaps(assembliesToScan);
-            });
-
+            }, loggerFactory);
+            
             return config.CreateMapper();
         });
 

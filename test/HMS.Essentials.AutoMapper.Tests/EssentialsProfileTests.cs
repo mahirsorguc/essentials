@@ -1,5 +1,6 @@
 using AutoMapper;
 using HMS.Essentials.AutoMapper.ObjectMapping;
+using Microsoft.Extensions.Logging.Abstractions;
 using Shouldly;
 
 namespace HMS.Essentials.AutoMapper;
@@ -71,7 +72,7 @@ public class EssentialsProfileTests
         var config = new MapperConfiguration(cfg =>
         {
             cfg.AddProfile(profile);
-        });
+        }, NullLoggerFactory.Instance);
 
         // Act
         var mapper = config.CreateMapper();

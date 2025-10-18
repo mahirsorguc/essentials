@@ -84,7 +84,7 @@ public class WebApplicationBuilderExtensionsTests
         var appHost = app.Services.GetRequiredService<ApplicationHost>();
 
         // Assert
-        appHost.Modules.Should().HaveCountGreaterOrEqualTo(3);
+        appHost.Modules.Should().HaveCountGreaterThanOrEqualTo(3);
         appHost.Modules.Should().Contain(m => m.ModuleType == typeof(RootTestModule));
         appHost.Modules.Should().Contain(m => m.ModuleType == typeof(DependentTestModule));
         appHost.Modules.Should().Contain(m => m.ModuleType == typeof(TestModule));
