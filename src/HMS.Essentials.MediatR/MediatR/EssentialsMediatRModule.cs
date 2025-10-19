@@ -4,6 +4,7 @@ using HMS.Essentials.Modularity;
 using HMS.Essentials.ObjectMapping;
 using HMS.Essentials.UnitOfWork;
 using MediatR;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace HMS.Essentials.MediatR;
@@ -24,6 +25,7 @@ public class EssentialsMediatRModule : EssentialsModule
 {
     public override void ConfigureServices(ModuleContext context)
     {
+        context.Services.Configure<EssentialsMediatROptions>(context.Configuration.GetSection("Essentials:MediatR"));
         // Register our custom mediator wrapper (optional - keeps a project-specific IMediator)
         context.Services.AddScoped<IMediator, Mediator>();
 
