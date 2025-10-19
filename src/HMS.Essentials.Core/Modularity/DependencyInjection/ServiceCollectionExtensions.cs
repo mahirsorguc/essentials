@@ -119,4 +119,70 @@ public static class ServiceCollectionExtensions
         services.Add(descriptor);
         return services;
     }
+
+    /// <summary>
+    /// Adds a singleton service with property injection support.
+    /// </summary>
+    /// <typeparam name="TService">The type of the service to register.</typeparam>
+    /// <typeparam name="TImplementation">The type of the implementation to use.</typeparam>
+    /// <param name="services">The service collection.</param>
+    /// <returns>The service collection for chaining.</returns>
+    public static IServiceCollection AddSingletonWithPropertyInjection<TService, TImplementation>(
+        this IServiceCollection services)
+        where TService : class
+        where TImplementation : class, TService
+    {
+        services.AddSingleton<TService>(serviceProvider =>
+        {
+            var instance = ActivatorUtilities.CreateInstance<TImplementation>(serviceProvider);
+            var injector = serviceProvider.GetService<IPropertyInjector>();
+            injector?.InjectProperties(instance);
+            return instance;
+        });
+        return services;
+    }
+
+    /// <summary>
+    /// Adds a scoped service with property injection support.
+    /// </summary>
+    /// <typeparam name="TService">The type of the service to register.</typeparam>
+    /// <typeparam name="TImplementation">The type of the implementation to use.</typeparam>
+    /// <param name="services">The service collection.</param>
+    /// <returns>The service collection for chaining.</returns>
+    public static IServiceCollection AddScopedWithPropertyInjection<TService, TImplementation>(
+        this IServiceCollection services)
+        where TService : class
+        where TImplementation : class, TService
+    {
+        services.AddScoped<TService>(serviceProvider =>
+        {
+            var instance = ActivatorUtilities.CreateInstance<TImplementation>(serviceProvider);
+            var injector = serviceProvider.GetService<IPropertyInjector>();
+            injector?.InjectProperties(instance);
+            return instance;
+        });
+        return services;
+    }
+
+    /// <summary>
+    /// Adds a transient service with property injection support.
+    /// </summary>
+    /// <typeparam name="TService">The type of the service to register.</typeparam>
+    /// <typeparam name="TImplementation">The type of the implementation to use.</typeparam>
+    /// <param name="services">The service collection.</param>
+    /// <returns>The service collection for chaining.</returns>
+    public static IServiceCollection AddTransientWithPropertyInjection<TService, TImplementation>(
+        this IServiceCollection services)
+        where TService : class
+        where TImplementation : class, TService
+    {
+        services.AddTransient<TService>(serviceProvider =>
+        {
+            var instance = ActivatorUtilities.CreateInstance<TImplementation>(serviceProvider);
+            var injector = serviceProvider.GetService<IPropertyInjector>();
+            injector?.InjectProperties(instance);
+            return instance;
+        });
+        return services;
+    }
 }

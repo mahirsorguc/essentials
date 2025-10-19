@@ -97,4 +97,29 @@ public sealed class ModuleContext
     {
         return ServiceProvider != null ? ServiceProvider.GetService<T>() : default;
     }
+
+    /// <summary>
+    /// Injects dependencies into all properties marked with InjectPropertyAttribute.
+    /// </summary>
+    /// <param name="instance">The object instance to inject properties into.</param>
+    /// <exception cref="InvalidOperationException">Thrown when the service provider is not available.</exception>
+    public void InjectProperties(object instance)
+    {
+        if (ServiceProvider == null)
+            throw new InvalidOperationException("Service provider is not available yet.");
+
+        var injector = ServiceProvider.GetService<DependencyInjection.IPropertyInjector>();
+        injector?.InjectProperties(instance);
+    }
+
+    /// <summary>
+    /// Injects dependencies into all properties marked with InjectPropertyAttribute.
+    /// </summary>
+    /// <typeparam name="T">The type of the instance.</typeparam>
+    /// <param name="instance">The object instance to inject properties into.</param>
+    /// <exception cref="InvalidOperationException">Thrown when the service provider is not available.</exception>
+    public void InjectProperties<T>(T instance) where T : class
+    {
+        InjectProperties((object)instance);
+    }
 }

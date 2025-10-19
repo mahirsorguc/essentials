@@ -154,7 +154,10 @@ public sealed class ApplicationBuilder
         _lifecycleManager.ConfigureServices();
 
         // Build the service provider
-        var serviceProvider = _services.BuildServiceProvider();
+        var innerServiceProvider = _services.BuildServiceProvider();
+
+        // Wrap with property injecting service provider for automatic property injection
+        var serviceProvider = new DependencyInjection.PropertyInjectingServiceProvider(innerServiceProvider);
 
         // Initialize all modules
         _lifecycleManager.Initialize(serviceProvider);

@@ -1,4 +1,5 @@
 ﻿using HMS.Essentials.Modularity;
+using HMS.Essentials.Modularity.DependencyInjection;
 using HMS.Essentials.SequentialGuid;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,5 +11,8 @@ public class EssentialsCoreModule : EssentialsModule
     {
         // Register Sequential GUID Generator
         context.Services.AddSingleton<ISequentialGuidGenerator, SequentialGuidGenerator>();
+        
+        // Register Property Injector
+        context.Services.AddSingleton<IPropertyInjector, PropertyInjector>();
     }
 }
