@@ -1,6 +1,7 @@
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace HMS.Essentials.MediatR.Behaviors;
 
@@ -14,13 +15,15 @@ public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TReques
 {
     private readonly IEnumerable<IValidator<TRequest>> _validators;
     private readonly ILogger<ValidationBehavior<TRequest, TResponse>> _logger;
+    private readonly EssentialsMediatROptions _essentialsMediatROptions;
 
     public ValidationBehavior(
         IEnumerable<IValidator<TRequest>> validators,
-        ILogger<ValidationBehavior<TRequest, TResponse>> logger)
+        ILogger<ValidationBehavior<TRequest, TResponse>> logger, IOptions<EssentialsMediatROptions> essentialsMediatROptions)
     {
         _validators = validators ?? throw new ArgumentNullException(nameof(validators));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        _essentialsMediatROptions = essentialsMediatROptions.Value;
     }
 
     public async Task<TResponse> Handle(
@@ -28,6 +31,12 @@ public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TReques
         RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
+        if (!_essentialsMediatROptions.FluentValidationEnabled)
+        {
+            return await next();
+        }
+        
+        
         if (!_validators.Any())
         {
             return await next();
