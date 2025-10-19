@@ -14,11 +14,13 @@ public class CreateSampleCommandHandler : ICommandHandler<CreateSampleCommand, S
         _objectMapper = objectMapper;
     }
 
-    public async Task<SampleDto> Handle(CreateSampleCommand request, CancellationToken cancellationToken)
+    public async Task<SampleDto> Handle(CreateSampleCommand createSampleCommand, CancellationToken cancellationToken)
     {
-        var dto = request.CreateSampleDto;
         var insertedSample =
-            await _sampleRepository.InsertAsync(new Sample(Guid.NewGuid(), dto.Name, dto.Description, dto.IsActive));
+            await _sampleRepository.InsertAsync(
+                new Sample(Guid.NewGuid(), createSampleCommand.Name, createSampleCommand.Description,
+                    createSampleCommand.IsActive), cancellationToken: cancellationToken);
+
         return _objectMapper.Map<Sample, SampleDto>(insertedSample);
     }
 }

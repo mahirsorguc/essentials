@@ -1,4 +1,5 @@
-﻿using HMS.Essentials.AspNetCore.Serilog;
+﻿using HMS.Essentials.AspNetCore.Extensions;
+using HMS.Essentials.AspNetCore.Serilog;
 using HMS.Essentials.MediatR;
 using HMS.Essentials.Modularity;
 using HMS.Essentials.Swashbuckle;
@@ -19,7 +20,9 @@ public class MainAppWebApiModule : EssentialsModule
     public override void ConfigureServices(ModuleContext context)
     {
         // Add controller services
-        context.Services.AddControllers();
+        context.Services
+            .AddControllers()
+            .AddFluentValidationAutoValidation();
         
         // Configure MediatR to scan application assemblies for handlers
         context.Services.AddMediatRHandlers(typeof(MainAppApplicationModule).Assembly);

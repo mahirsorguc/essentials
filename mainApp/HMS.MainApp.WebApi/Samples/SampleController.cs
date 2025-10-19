@@ -20,7 +20,7 @@ public class SampleController : MainAppControllerBase
     [ProducesResponseType(typeof(SampleDto), StatusCodes.Status200OK)]
     public async Task<IActionResult> CreateSample([FromBody] CreateSampleDto createSampleDto)
     {
-        var createSampleCommand = new CreateSampleCommand { CreateSampleDto = createSampleDto };
+        var createSampleCommand = new CreateSampleCommand(createSampleDto.Name, createSampleDto.Description, createSampleDto.IsActive);
         var result = await _mediator.Send(createSampleCommand);
         return Ok(result);
     }
