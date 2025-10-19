@@ -1,10 +1,10 @@
 using HMS.Essentials.FluentValidation;
 using HMS.Essentials.MediatR.Behaviors;
 using HMS.Essentials.Modularity;
+using HMS.Essentials.ObjectMapping;
 using HMS.Essentials.UnitOfWork;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace HMS.Essentials.MediatR;
 
@@ -17,7 +17,8 @@ namespace HMS.Essentials.MediatR;
     typeof(EssentialsMediatRQueriesModule),
     typeof(EssentialsMediatRDomainEventsModule),
     typeof(EssentialsUnitOfWorkModule),
-    typeof(EssentialsFluentValidationModule)
+    typeof(EssentialsFluentValidationModule),
+    typeof(EssentialsObjectMappingModule)
 )]
 public class EssentialsMediatRModule : EssentialsModule
 {
