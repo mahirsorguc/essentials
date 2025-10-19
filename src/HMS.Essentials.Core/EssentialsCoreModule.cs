@@ -14,5 +14,8 @@ public class EssentialsCoreModule : EssentialsModule
         
         // Register Property Injector
         context.Services.AddSingleton<IPropertyInjector, PropertyInjector>();
+        
+        // Register Lazy Service Provider
+        context.Services.AddSingleton<IEssentialsLazyServiceProvider, EssentialsLazyServiceProvider>();
     }
 }
