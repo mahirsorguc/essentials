@@ -2,6 +2,7 @@ using HMS.Essentials.MediatR.Behaviors;
 using HMS.Essentials.UnitOfWork;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Moq;
 using Shouldly;
 
@@ -11,13 +12,19 @@ public class UnitOfWorkBehaviorTests
 {
     private readonly Mock<IUnitOfWork> _mockUnitOfWork;
     private readonly Mock<ILogger<UnitOfWorkBehavior<TestCommand, string>>> _mockLogger;
+    private readonly Mock<IOptions<EssentialsMediatROptions>> _mockOptions;
     private readonly UnitOfWorkBehavior<TestCommand, string> _behavior;
 
     public UnitOfWorkBehaviorTests()
     {
         _mockUnitOfWork = new Mock<IUnitOfWork>();
         _mockLogger = new Mock<ILogger<UnitOfWorkBehavior<TestCommand, string>>>();
-        _behavior = new UnitOfWorkBehavior<TestCommand, string>(_mockUnitOfWork.Object, _mockLogger.Object);
+        _mockOptions = new Mock<IOptions<EssentialsMediatROptions>>();
+        _mockOptions.Setup(x => x.Value).Returns(new EssentialsMediatROptions
+        {
+            UnitOfWorkEnabled = true
+        });
+        _behavior = new UnitOfWorkBehavior<TestCommand, string>(_mockUnitOfWork.Object, _mockLogger.Object, _mockOptions.Object);
     }
 
     [Fact]
@@ -121,7 +128,7 @@ public class UnitOfWorkBehaviorTests
     {
         // Act & Assert
         Should.Throw<ArgumentNullException>(() => 
-            new UnitOfWorkBehavior<TestCommand, string>(null!, _mockLogger.Object));
+            new UnitOfWorkBehavior<TestCommand, string>(null!, _mockLogger.Object, _mockOptions.Object));
     }
 
     [Fact]
@@ -129,7 +136,32 @@ public class UnitOfWorkBehaviorTests
     {
         // Act & Assert
         Should.Throw<ArgumentNullException>(() => 
-            new UnitOfWorkBehavior<TestCommand, string>(_mockUnitOfWork.Object, null!));
+            new UnitOfWorkBehavior<TestCommand, string>(_mockUnitOfWork.Object, null!, _mockOptions.Object));
+    }
+
+    [Fact]
+    public async Task Handle_WhenUnitOfWorkDisabled_ShouldSkipTransactionManagement()
+    {
+        // Arrange
+        var mockOptionsDisabled = new Mock<IOptions<EssentialsMediatROptions>>();
+        mockOptionsDisabled.Setup(x => x.Value).Returns(new EssentialsMediatROptions
+        {
+            UnitOfWorkEnabled = false
+        });
+
+        var behavior = new UnitOfWorkBehavior<TestCommand, string>(_mockUnitOfWork.Object, _mockLogger.Object, mockOptionsDisabled.Object);
+        var command = new TestCommand();
+        var expectedResponse = "test response";
+        Task<string> Next(CancellationToken ct) => Task.FromResult(expectedResponse);
+
+        // Act
+        var result = await behavior.Handle(command, Next, CancellationToken.None);
+
+        // Assert
+        result.ShouldBe(expectedResponse);
+        _mockUnitOfWork.Verify(u => u.BeginTransactionAsync(It.IsAny<CancellationToken>()), Times.Never);
+        _mockUnitOfWork.Verify(u => u.CommitTransactionAsync(It.IsAny<CancellationToken>()), Times.Never);
+        _mockUnitOfWork.Verify(u => u.RollbackTransactionAsync(It.IsAny<CancellationToken>()), Times.Never);
     }
 
     [Fact]
@@ -156,7 +188,7 @@ public class UnitOfWorkBehaviorTests
         var command = new CommandWithoutAttribute();
         var expectedResponse = "test response";
         var mockLogger = new Mock<ILogger<UnitOfWorkBehavior<CommandWithoutAttribute, string>>>();
-        var behavior = new UnitOfWorkBehavior<CommandWithoutAttribute, string>(_mockUnitOfWork.Object, mockLogger.Object);
+        var behavior = new UnitOfWorkBehavior<CommandWithoutAttribute, string>(_mockUnitOfWork.Object, mockLogger.Object, _mockOptions.Object);
         Task<string> Next(CancellationToken ct) => Task.FromResult(expectedResponse);
 
         // Act
@@ -176,7 +208,7 @@ public class UnitOfWorkBehaviorTests
         var command = new CommandWithDisabledUnitOfWork();
         var expectedResponse = "test response";
         var mockLogger = new Mock<ILogger<UnitOfWorkBehavior<CommandWithDisabledUnitOfWork, string>>>();
-        var behavior = new UnitOfWorkBehavior<CommandWithDisabledUnitOfWork, string>(_mockUnitOfWork.Object, mockLogger.Object);
+        var behavior = new UnitOfWorkBehavior<CommandWithDisabledUnitOfWork, string>(_mockUnitOfWork.Object, mockLogger.Object, _mockOptions.Object);
         Task<string> Next(CancellationToken ct) => Task.FromResult(expectedResponse);
 
         // Act
@@ -196,7 +228,7 @@ public class UnitOfWorkBehaviorTests
         var command = new CommandWithoutAutoCommit();
         var expectedResponse = "test response";
         var mockLogger = new Mock<ILogger<UnitOfWorkBehavior<CommandWithoutAutoCommit, string>>>();
-        var behavior = new UnitOfWorkBehavior<CommandWithoutAutoCommit, string>(_mockUnitOfWork.Object, mockLogger.Object);
+        var behavior = new UnitOfWorkBehavior<CommandWithoutAutoCommit, string>(_mockUnitOfWork.Object, mockLogger.Object, _mockOptions.Object);
         Task<string> Next(CancellationToken ct) => Task.FromResult(expectedResponse);
 
         // Act
@@ -216,7 +248,7 @@ public class UnitOfWorkBehaviorTests
         var command = new CommandWithoutAutoRollback();
         var expectedException = new InvalidOperationException("Test exception");
         var mockLogger = new Mock<ILogger<UnitOfWorkBehavior<CommandWithoutAutoRollback, string>>>();
-        var behavior = new UnitOfWorkBehavior<CommandWithoutAutoRollback, string>(_mockUnitOfWork.Object, mockLogger.Object);
+        var behavior = new UnitOfWorkBehavior<CommandWithoutAutoRollback, string>(_mockUnitOfWork.Object, mockLogger.Object, _mockOptions.Object);
         Task<string> NextThrows(CancellationToken ct) => throw expectedException;
 
         // Act & Assert

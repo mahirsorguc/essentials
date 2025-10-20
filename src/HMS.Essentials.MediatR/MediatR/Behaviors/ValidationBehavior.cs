@@ -31,15 +31,9 @@ public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TReques
         RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
-        if (!_essentialsMediatROptions.FluentValidationEnabled)
+        if (!_essentialsMediatROptions.FluentValidationEnabled || !_validators.Any())
         {
-            return await next();
-        }
-        
-        
-        if (!_validators.Any())
-        {
-            return await next();
+            return await next(cancellationToken);
         }
 
         var context = new ValidationContext<TRequest>(request);
@@ -52,16 +46,17 @@ public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TReques
             .SelectMany(r => r.Errors)
             .ToList();
 
-        if (failures.Any())
+        if (failures.Count == 0)
         {
-            var requestName = typeof(TRequest).Name;
-            _logger.LogWarning("Validation failed for {RequestName}. Errors: {Errors}",
-                requestName,
-                string.Join(", ", failures.Select(f => f.ErrorMessage)));
-
-            throw new ValidationException(failures);
+            return await next(cancellationToken);
         }
 
-        return await next();
+        var requestName = typeof(TRequest).Name;
+        _logger.LogWarning("Validation failed for {RequestName}. Errors: {Errors}",
+            requestName,
+            string.Join(", ", failures.Select(f => f.ErrorMessage)));
+
+        throw new ValidationException(failures);
+
     }
 }
