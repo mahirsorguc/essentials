@@ -26,6 +26,9 @@ jobs:
           dotnet-version: 9.0.x
           cache: true
           cache-dependency-path: "**/packages.lock.json"
+      
+      - name: Extract version from tag
+        run: echo "PKG_VER=${GITHUB_REF_NAME#v}" >> $GITHUB_ENV
 
       - name: Restore dependencies
         run: dotnet restore
@@ -39,6 +42,8 @@ jobs:
       - name: Pack NuGet (.nupkg + .snupkg)
         run: >
           dotnet pack --no-build --configuration Release
+          -p:PackageVersion=${{ env.PKG_VER }}
+          -p:Version=${{ env.PKG_VER }}
           -p:ContinuousIntegrationBuild=true
           -p:IncludeSymbols=true
           -p:SymbolPackageFormat=snupkg
