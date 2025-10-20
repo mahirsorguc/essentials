@@ -1,16 +1,19 @@
 # This workflow will build a .NET project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
 
-name: .NET 9 Build & Test
+name: .NET 9 Build, Test & Pack
 
 on:
   push:
     branches: [ "main" ]
+    tags:
+       - "v*"
   pull_request:
     branches: [ "main" ]
+     
 
 jobs:
-  build_and_test:
+  build_test_pack:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,12 +24,31 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 9.0.x
+          cache: true
+          cache-dependency-path: "**/packages.lock.json"
 
       - name: Restore dependencies
         run: dotnet restore
 
-      - name: Build project
+      - name: Build (Release)
         run: dotnet build --no-restore --configuration Release
 
-      - name: Run tests
+      - name: Run tests (Release)
         run: dotnet test --no-build --configuration Release --verbosity normal
+
+      - name: Pack NuGet (.nupkg + .snupkg)
+        run: >
+          dotnet pack --no-build --configuration Release
+          -p:ContinuousIntegrationBuild=true
+          -p:IncludeSymbols=true
+          -p:SymbolPackageFormat=snupkg
+          -o artifacts
+
+      - name: Upload package artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: nuget-packages
+          path: |
+            artifacts/**/*.nupkg
+            artifacts/**/*.snupkg
+          if-no-files-found: error
