@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Moq;
 using Shouldly;
 using HMS.Essentials.MediatR.Behaviors;
@@ -9,12 +10,18 @@ namespace HMS.Essentials.MediatR.Tests.Behaviors;
 public class LoggingBehaviorTests
 {
     private readonly Mock<ILogger<LoggingBehavior<TestRequest, string>>> _mockLogger;
+    private readonly Mock<IOptions<EssentialsMediatROptions>> _mockOptions;
     private readonly LoggingBehavior<TestRequest, string> _behavior;
 
     public LoggingBehaviorTests()
     {
         _mockLogger = new Mock<ILogger<LoggingBehavior<TestRequest, string>>>();
-        _behavior = new LoggingBehavior<TestRequest, string>(_mockLogger.Object);
+        _mockOptions = new Mock<IOptions<EssentialsMediatROptions>>();
+        _mockOptions.Setup(x => x.Value).Returns(new EssentialsMediatROptions
+        {
+            RequestLoggingEnabled = true
+        });
+        _behavior = new LoggingBehavior<TestRequest, string>(_mockLogger.Object, _mockOptions.Object);
     }
 
     [Fact]
@@ -88,7 +95,46 @@ public class LoggingBehaviorTests
     {
         // Act & Assert
         Should.Throw<ArgumentNullException>(() => 
-            new LoggingBehavior<TestRequest, string>(null!));
+            new LoggingBehavior<TestRequest, string>(null!, _mockOptions.Object));
+    }
+
+    [Fact]
+    public async Task Handle_WhenRequestLoggingDisabled_ShouldSkipLogging()
+    {
+        // Arrange
+        var mockOptionsDisabled = new Mock<IOptions<EssentialsMediatROptions>>();
+        mockOptionsDisabled.Setup(x => x.Value).Returns(new EssentialsMediatROptions
+        {
+            RequestLoggingEnabled = false
+        });
+
+        var behavior = new LoggingBehavior<TestRequest, string>(_mockLogger.Object, mockOptionsDisabled.Object);
+        var request = new TestRequest();
+        var expectedResponse = "test response";
+        var nextWasCalled = false;
+        
+        Task<string> Next(CancellationToken ct)
+        {
+            nextWasCalled = true;
+            return Task.FromResult(expectedResponse);
+        }
+
+        // Act
+        var result = await behavior.Handle(request, Next, CancellationToken.None);
+
+        // Assert
+        result.ShouldBe(expectedResponse);
+        nextWasCalled.ShouldBeTrue();
+        
+        // Verify no logging occurred
+        _mockLogger.Verify(
+            x => x.Log(
+                It.IsAny<LogLevel>(),
+                It.IsAny<EventId>(),
+                It.IsAny<It.IsAnyType>(),
+                It.IsAny<Exception>(),
+                It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
+            Times.Never);
     }
 
     public class TestRequest : IRequest<string>

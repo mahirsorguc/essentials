@@ -5,16 +5,23 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using Shouldly;
 using HMS.Essentials.MediatR.Behaviors;
+using Microsoft.Extensions.Options;
 
 namespace HMS.Essentials.MediatR.Tests.Behaviors;
 
 public class ValidationBehaviorTests
 {
     private readonly Mock<ILogger<ValidationBehavior<TestRequest, string>>> _mockLogger;
+    private readonly Mock<IOptions<EssentialsMediatROptions>> _mockOptions;
 
     public ValidationBehaviorTests()
     {
         _mockLogger = new Mock<ILogger<ValidationBehavior<TestRequest, string>>>();
+        _mockOptions = new Mock<IOptions<EssentialsMediatROptions>>();
+        _mockOptions.Setup(x => x.Value).Returns(new EssentialsMediatROptions
+        {
+            FluentValidationEnabled = true
+        });
     }
 
     [Fact]
@@ -22,7 +29,7 @@ public class ValidationBehaviorTests
     {
         // Arrange
         var validators = Enumerable.Empty<IValidator<TestRequest>>();
-        var behavior = new ValidationBehavior<TestRequest, string>(validators, _mockLogger.Object);
+        var behavior = new ValidationBehavior<TestRequest, string>(validators, _mockLogger.Object, _mockOptions.Object);
         var request = new TestRequest();
         var expectedResponse = "test response";
         Task<string> Next(CancellationToken ct) => Task.FromResult(expectedResponse);
@@ -44,7 +51,7 @@ public class ValidationBehaviorTests
             .ReturnsAsync(new ValidationResult());
 
         var validators = new[] { mockValidator.Object };
-        var behavior = new ValidationBehavior<TestRequest, string>(validators, _mockLogger.Object);
+        var behavior = new ValidationBehavior<TestRequest, string>(validators, _mockLogger.Object, _mockOptions.Object);
         var request = new TestRequest();
         var expectedResponse = "test response";
         Task<string> Next(CancellationToken ct) => Task.FromResult(expectedResponse);
@@ -71,7 +78,7 @@ public class ValidationBehaviorTests
             .ReturnsAsync(new ValidationResult(validationFailures));
 
         var validators = new[] { mockValidator.Object };
-        var behavior = new ValidationBehavior<TestRequest, string>(validators, _mockLogger.Object);
+        var behavior = new ValidationBehavior<TestRequest, string>(validators, _mockLogger.Object, _mockOptions.Object);
         var request = new TestRequest();
         Task<string> Next(CancellationToken ct) => Task.FromResult("test response");
 
@@ -97,7 +104,7 @@ public class ValidationBehaviorTests
             .ReturnsAsync(new ValidationResult(new[] { new ValidationFailure("Field2", "Error 2") }));
 
         var validators = new[] { mockValidator1.Object, mockValidator2.Object };
-        var behavior = new ValidationBehavior<TestRequest, string>(validators, _mockLogger.Object);
+        var behavior = new ValidationBehavior<TestRequest, string>(validators, _mockLogger.Object, _mockOptions.Object);
         var request = new TestRequest();
         Task<string> Next(CancellationToken ct) => Task.FromResult("test response");
 
@@ -123,7 +130,7 @@ public class ValidationBehaviorTests
             .ReturnsAsync(new ValidationResult(validationFailures));
 
         var validators = new[] { mockValidator.Object };
-        var behavior = new ValidationBehavior<TestRequest, string>(validators, _mockLogger.Object);
+        var behavior = new ValidationBehavior<TestRequest, string>(validators, _mockLogger.Object, _mockOptions.Object);
         var request = new TestRequest();
         Task<string> Next(CancellationToken ct) => Task.FromResult("test response");
 
@@ -153,7 +160,7 @@ public class ValidationBehaviorTests
     {
         // Act & Assert
         Should.Throw<ArgumentNullException>(() => 
-            new ValidationBehavior<TestRequest, string>(null!, _mockLogger.Object));
+            new ValidationBehavior<TestRequest, string>(null!, _mockLogger.Object, _mockOptions.Object));
     }
 
     [Fact]
@@ -164,7 +171,43 @@ public class ValidationBehaviorTests
 
         // Act & Assert
         Should.Throw<ArgumentNullException>(() => 
-            new ValidationBehavior<TestRequest, string>(validators, null!));
+            new ValidationBehavior<TestRequest, string>(validators, null!, _mockOptions.Object));
+    }
+
+    [Fact]
+    public async Task Handle_WhenFluentValidationDisabled_ShouldSkipValidation()
+    {
+        // Arrange
+        var mockOptionsDisabled = new Mock<IOptions<EssentialsMediatROptions>>();
+        mockOptionsDisabled.Setup(x => x.Value).Returns(new EssentialsMediatROptions
+        {
+            FluentValidationEnabled = false
+        });
+
+        var validationFailures = new List<ValidationFailure>
+        {
+            new ValidationFailure("PropertyName", "Error message")
+        };
+
+        var mockValidator = new Mock<IValidator<TestRequest>>();
+        mockValidator
+            .Setup(v => v.ValidateAsync(It.IsAny<ValidationContext<TestRequest>>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new ValidationResult(validationFailures));
+
+        var validators = new[] { mockValidator.Object };
+        var behavior = new ValidationBehavior<TestRequest, string>(validators, _mockLogger.Object, mockOptionsDisabled.Object);
+        var request = new TestRequest();
+        var expectedResponse = "test response";
+        Task<string> Next(CancellationToken ct) => Task.FromResult(expectedResponse);
+
+        // Act
+        var result = await behavior.Handle(request, Next, CancellationToken.None);
+
+        // Assert
+        result.ShouldBe(expectedResponse);
+        mockValidator.Verify(
+            v => v.ValidateAsync(It.IsAny<ValidationContext<TestRequest>>(), It.IsAny<CancellationToken>()),
+            Times.Never);
     }
 
     public class TestRequest : IRequest<string>

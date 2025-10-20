@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Moq;
 using Shouldly;
 using HMS.Essentials.MediatR.Behaviors;
@@ -9,12 +10,18 @@ namespace HMS.Essentials.MediatR.Tests.Behaviors;
 public class PerformanceBehaviorTests
 {
     private readonly Mock<ILogger<PerformanceBehavior<TestRequest, string>>> _mockLogger;
+    private readonly Mock<IOptions<EssentialsMediatROptions>> _mockOptions;
     private readonly PerformanceBehavior<TestRequest, string> _behavior;
 
     public PerformanceBehaviorTests()
     {
         _mockLogger = new Mock<ILogger<PerformanceBehavior<TestRequest, string>>>();
-        _behavior = new PerformanceBehavior<TestRequest, string>(_mockLogger.Object);
+        _mockOptions = new Mock<IOptions<EssentialsMediatROptions>>();
+        _mockOptions.Setup(x => x.Value).Returns(new EssentialsMediatROptions
+        {
+            PerformanceLoggingEnabled = true
+        });
+        _behavior = new PerformanceBehavior<TestRequest, string>(_mockLogger.Object, _mockOptions.Object);
     }
 
     [Fact]
@@ -82,7 +89,44 @@ public class PerformanceBehaviorTests
     {
         // Act & Assert
         Should.Throw<ArgumentNullException>(() => 
-            new PerformanceBehavior<TestRequest, string>(null!));
+            new PerformanceBehavior<TestRequest, string>(null!, _mockOptions.Object));
+    }
+
+    [Fact]
+    public async Task Handle_WhenPerformanceLoggingDisabled_ShouldSkipLogging()
+    {
+        // Arrange
+        var mockOptionsDisabled = new Mock<IOptions<EssentialsMediatROptions>>();
+        mockOptionsDisabled.Setup(x => x.Value).Returns(new EssentialsMediatROptions
+        {
+            PerformanceLoggingEnabled = false
+        });
+
+        var behavior = new PerformanceBehavior<TestRequest, string>(_mockLogger.Object, mockOptionsDisabled.Object);
+        var request = new TestRequest();
+        var expectedResponse = "test response";
+        
+        async Task<string> Next(CancellationToken ct)
+        {
+            await Task.Delay(600, ct); // Slow execution (>500ms)
+            return expectedResponse;
+        }
+
+        // Act
+        var result = await behavior.Handle(request, Next, CancellationToken.None);
+
+        // Assert
+        result.ShouldBe(expectedResponse);
+        
+        // Verify no warning was logged even though execution was slow
+        _mockLogger.Verify(
+            x => x.Log(
+                LogLevel.Warning,
+                It.IsAny<EventId>(),
+                It.IsAny<It.IsAnyType>(),
+                It.IsAny<Exception>(),
+                It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
+            Times.Never);
     }
 
     [Fact]

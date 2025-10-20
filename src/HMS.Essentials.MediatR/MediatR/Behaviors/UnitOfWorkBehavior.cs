@@ -1,6 +1,7 @@
 using HMS.Essentials.UnitOfWork;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace HMS.Essentials.MediatR.Behaviors;
 
@@ -29,13 +30,15 @@ public class UnitOfWorkBehavior<TRequest, TResponse> : IPipelineBehavior<TReques
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<UnitOfWorkBehavior<TRequest, TResponse>> _logger;
-
+private readonly EssentialsMediatROptions _essentialsMediatROptions;
+    
     public UnitOfWorkBehavior(
         IUnitOfWork unitOfWork,
-        ILogger<UnitOfWorkBehavior<TRequest, TResponse>> logger)
+        ILogger<UnitOfWorkBehavior<TRequest, TResponse>> logger, IOptions<EssentialsMediatROptions> essentialsMediatROptions)
     {
         _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        _essentialsMediatROptions = essentialsMediatROptions.Value;
     }
 
     public async Task<TResponse> Handle(
@@ -43,6 +46,11 @@ public class UnitOfWorkBehavior<TRequest, TResponse> : IPipelineBehavior<TReques
         RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
+        if (!_essentialsMediatROptions.UnitOfWorkEnabled)
+        {
+            return await next(cancellationToken);
+        }
+        
         var requestType = typeof(TRequest);
         var requestName = requestType.Name;
 
@@ -68,7 +76,7 @@ public class UnitOfWorkBehavior<TRequest, TResponse> : IPipelineBehavior<TReques
         }
 
         // We are starting a new transaction, so we own it and are responsible for commit/rollback
-        var transactionOwner = true;
+        const bool transactionOwner = true;
 
         try
         {

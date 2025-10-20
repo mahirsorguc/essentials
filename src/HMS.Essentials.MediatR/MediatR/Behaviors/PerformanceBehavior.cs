@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace HMS.Essentials.MediatR.Behaviors;
 
@@ -14,10 +15,12 @@ public class PerformanceBehavior<TRequest, TResponse> : IPipelineBehavior<TReque
 {
     private readonly ILogger<PerformanceBehavior<TRequest, TResponse>> _logger;
     private readonly Stopwatch _timer;
+    private readonly EssentialsMediatROptions _essentialsMediatROptions;
 
-    public PerformanceBehavior(ILogger<PerformanceBehavior<TRequest, TResponse>> logger)
+    public PerformanceBehavior(ILogger<PerformanceBehavior<TRequest, TResponse>> logger, IOptions<EssentialsMediatROptions> essentialsMediatROptions)
     {
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        _essentialsMediatROptions = essentialsMediatROptions.Value;
         _timer = new Stopwatch();
     }
 
@@ -26,9 +29,14 @@ public class PerformanceBehavior<TRequest, TResponse> : IPipelineBehavior<TReque
         RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
+        if (!_essentialsMediatROptions.PerformanceLoggingEnabled)
+        {
+            return await next(cancellationToken);
+        }
+        
         _timer.Start();
 
-        var response = await next();
+        var response = await next(cancellationToken);
 
         _timer.Stop();
 
