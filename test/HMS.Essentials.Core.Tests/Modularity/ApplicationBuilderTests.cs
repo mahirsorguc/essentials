@@ -1,9 +1,7 @@
-using HMS.Essentials.Modularity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Xunit;
 
-namespace HMS.Essentials.Core.Tests.Modularity;
+namespace HMS.Essentials.Modularity;
 
 public class ApplicationBuilderTests
 {

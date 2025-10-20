@@ -1,7 +1,4 @@
-using HMS.Essentials.AspNetCore.Serilog.Configuration;
-using Shouldly;
-
-namespace HMS.Essentials.AspNetCore.Serilog.Tests.Configuration;
+namespace HMS.Essentials.AspNetCore.Serilog.Configuration;
 
 /// <summary>
 /// Tests for SerilogOptions configuration class.

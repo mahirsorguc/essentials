@@ -2,13 +2,11 @@ using HMS.Essentials.Modularity;
 using HMS.Essentials.Swashbuckle.Configuration;
 using HMS.Essentials.Swashbuckle.Extensions;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Shouldly;
 using SwashbuckleSwagger = Swashbuckle.AspNetCore.Swagger;
 
-namespace HMS.Essentials.Swashbuckle.Tests.Integration;
+namespace HMS.Essentials.Swashbuckle.Integration;
 
 /// <summary>
 /// Integration tests for Swashbuckle module.

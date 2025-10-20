@@ -1,6 +1,4 @@
 using FluentValidation;
-using FluentValidation.Results;
-using HMS.Essentials.AspNetCore.Filters;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
@@ -10,9 +8,8 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;
-using Xunit;
 
-namespace HMS.Essentials.AspNetCore.Tests.Filters;
+namespace HMS.Essentials.AspNetCore.Filters;
 
 public class FluentValidationActionFilterTests
 {

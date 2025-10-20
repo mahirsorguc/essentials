@@ -1,13 +1,9 @@
 using HMS.Essentials.Swashbuckle.Configuration;
-using HMS.Essentials.Swashbuckle.Extensions;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Shouldly;
 
-namespace HMS.Essentials.Swashbuckle.Tests.Extensions;
+namespace HMS.Essentials.Swashbuckle.Extensions;
 
 /// <summary>
 /// Tests for SwaggerMiddlewareExtensions.

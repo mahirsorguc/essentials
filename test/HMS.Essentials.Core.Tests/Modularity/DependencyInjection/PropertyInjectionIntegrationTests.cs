@@ -1,8 +1,6 @@
-using HMS.Essentials.Modularity.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
-using Shouldly;
 
-namespace HMS.Essentials.Modularity.Tests.DependencyInjection;
+namespace HMS.Essentials.Modularity.DependencyInjection;
 
 /// <summary>
 /// Integration tests for property injection within the module system.

@@ -1,8 +1,7 @@
 using HMS.Essentials.Domain.Entities;
 using HMS.Essentials.MediatR;
-using Shouldly;
 
-namespace HMS.Essentials.Ddd.Domain.Tests.Entities;
+namespace HMS.Essentials.Entities;
 
 public class AggregateRootTests
 {

@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 
-namespace HMS.Essentials.Swashbuckle.Tests.Helpers;
+namespace HMS.Essentials.Swashbuckle.Helpers;
 
 /// <summary>
 /// Helper methods for creating test contexts and configurations.

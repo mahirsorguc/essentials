@@ -1,7 +1,4 @@
-using HMS.Essentials.Swashbuckle.Configuration;
-using Shouldly;
-
-namespace HMS.Essentials.Swashbuckle.Tests.Configuration;
+namespace HMS.Essentials.Swashbuckle.Configuration;
 
 /// <summary>
 /// Tests for SwaggerOptions configuration class.

@@ -1,7 +1,6 @@
 using HMS.Essentials.Domain.Rules;
-using Shouldly;
 
-namespace HMS.Essentials.Ddd.Domain.Tests.Rules;
+namespace HMS.Essentials.Rules;
 
 public class BusinessRuleTests
 {

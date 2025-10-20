@@ -2,11 +2,9 @@ using HMS.Essentials.AspNetCore.Serilog.Configuration;
 using HMS.Essentials.Modularity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Shouldly;
 
-namespace HMS.Essentials.AspNetCore.Serilog.Tests;
+namespace HMS.Essentials.AspNetCore.Serilog;
 
 /// <summary>
 /// Tests for EssentialsAspNetCoreSerilogModule.

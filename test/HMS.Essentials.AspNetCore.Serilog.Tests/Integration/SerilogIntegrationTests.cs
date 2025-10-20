@@ -4,9 +4,8 @@ using HMS.Essentials.Modularity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Shouldly;
 
-namespace HMS.Essentials.AspNetCore.Serilog.Tests.Integration;
+namespace HMS.Essentials.AspNetCore.Serilog.Integration;
 
 /// <summary>
 /// Integration tests for Serilog module.

@@ -1,6 +1,4 @@
-using Shouldly;
-
-namespace HMS.Essentials.MediatR.Tests;
+namespace HMS.Essentials.MediatR;
 
 /// <summary>
 /// Tests for UnitOfWorkAttribute.

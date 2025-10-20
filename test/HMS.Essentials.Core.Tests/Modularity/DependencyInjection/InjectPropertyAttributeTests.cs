@@ -1,8 +1,6 @@
 using System.Reflection;
-using HMS.Essentials.Modularity.DependencyInjection;
-using Shouldly;
 
-namespace HMS.Essentials.Modularity.Tests.DependencyInjection;
+namespace HMS.Essentials.Modularity.DependencyInjection;
 
 /// <summary>
 /// Tests for <see cref="InjectPropertyAttribute"/>.

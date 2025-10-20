@@ -1,12 +1,10 @@
 using HMS.Essentials.Modularity;
 using HMS.Essentials.Swashbuckle.Configuration;
-using HMS.Essentials.Swashbuckle.Tests.Helpers;
-using Microsoft.Extensions.Configuration;
+using HMS.Essentials.Swashbuckle.Helpers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Shouldly;
 
-namespace HMS.Essentials.Swashbuckle.Tests;
+namespace HMS.Essentials.Swashbuckle;
 
 /// <summary>
 /// Tests for EssentialsSwashbuckleModule.
