@@ -1,9 +1,8 @@
 using HMS.Essentials.Modularity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Shouldly;
 
-namespace HMS.Essentials.UnitOfWork.Tests;
+namespace HMS.Essentials.UnitOfWork;
 
 /// <summary>
 /// Tests for EssentialsUnitOfWorkModule.

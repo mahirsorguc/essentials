@@ -1,11 +1,7 @@
-using FluentValidation;
-using HMS.Essentials.AspNetCore.Extensions;
-using HMS.Essentials.AspNetCore.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
-using Xunit;
 
-namespace HMS.Essentials.AspNetCore.Tests.Extensions;
+namespace HMS.Essentials.AspNetCore.Extensions;
 
 public class FluentValidationFilterExtensionsTests
 {

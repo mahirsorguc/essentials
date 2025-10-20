@@ -1,10 +1,8 @@
-using HMS.Essentials.AspNetCore;
 using HMS.Essentials.Modularity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Xunit;
 
-namespace HMS.Essentials.AspNetCore.Tests.Modularity;
+namespace HMS.Essentials.AspNetCore.Modularity;
 
 public class EssentialsAspNetCoreModuleTests
 {

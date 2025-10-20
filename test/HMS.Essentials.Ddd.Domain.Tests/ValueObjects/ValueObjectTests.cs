@@ -1,7 +1,6 @@
 using HMS.Essentials.Domain.ValueObjects;
-using Shouldly;
 
-namespace HMS.Essentials.Ddd.Domain.Tests.ValueObjects;
+namespace HMS.Essentials.ValueObjects;
 
 public class ValueObjectTests
 {

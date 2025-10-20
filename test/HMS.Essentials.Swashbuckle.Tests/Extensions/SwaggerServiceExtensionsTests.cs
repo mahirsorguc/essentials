@@ -1,12 +1,7 @@
 using HMS.Essentials.Swashbuckle.Configuration;
-using HMS.Essentials.Swashbuckle.Extensions;
-using HMS.Essentials.Swashbuckle.Tests.Helpers;
 using Microsoft.Extensions.DependencyInjection;
-using Shouldly;
-using SwashbuckleSwagger = Swashbuckle.AspNetCore.Swagger;
-using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace HMS.Essentials.Swashbuckle.Tests.Extensions;
+namespace HMS.Essentials.Swashbuckle.Extensions;
 
 /// <summary>
 /// Tests for SwaggerServiceExtensions.

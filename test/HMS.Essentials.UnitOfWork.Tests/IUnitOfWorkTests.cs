@@ -1,7 +1,6 @@
 using Moq;
-using Shouldly;
 
-namespace HMS.Essentials.UnitOfWork.Tests;
+namespace HMS.Essentials.UnitOfWork;
 
 /// <summary>
 /// Tests for IUnitOfWork interface contract.

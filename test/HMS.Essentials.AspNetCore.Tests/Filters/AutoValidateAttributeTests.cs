@@ -1,12 +1,9 @@
-using FluentValidation;
-using HMS.Essentials.AspNetCore.Filters;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;
-using Xunit;
 
-namespace HMS.Essentials.AspNetCore.Tests.Filters;
+namespace HMS.Essentials.AspNetCore.Filters;
 
 public class AutoValidateAttributeTests
 {

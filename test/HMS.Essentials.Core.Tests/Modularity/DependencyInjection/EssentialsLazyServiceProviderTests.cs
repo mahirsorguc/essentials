@@ -1,11 +1,7 @@
-using HMS.Essentials.Modularity;
-using HMS.Essentials.Modularity.DependencyInjection;
 using HMS.Essentials.SequentialGuid;
 using Microsoft.Extensions.DependencyInjection;
-using Shouldly;
-using Xunit;
 
-namespace HMS.Essentials.Core.Tests.Modularity.DependencyInjection;
+namespace HMS.Essentials.Modularity.DependencyInjection;
 
 /// <summary>
 /// Tests for <see cref="IEssentialsLazyServiceProvider"/> and <see cref="EssentialsLazyServiceProvider"/>.
