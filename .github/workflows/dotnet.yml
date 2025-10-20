@@ -29,18 +29,37 @@ jobs:
           dotnet restore
           dotnet build -c Release --no-restore
 
-      - name: Pack NuGet (.nupkg + .snupkg) using tag version (strip leading v)
+      - name: Detect .csproj files
+        id: detect
+        shell: bash
+        run: |
+          echo "Detected .csproj files:"
+          mapfile -t projects < <(git ls-files "*.csproj")
+          printf ' - %s\n' "${projects[@]}"
+
+          if [ ${#projects[@]} -eq 0 ]; then
+            echo "No .csproj files found. The project path might be incorrect or at a different repo level." >&2
+            exit 1
+          fi
+
+          printf '%s\n' "${projects[@]}" > projects.txt
+
+      - name: Pack all projects (.nupkg + .snupkg) using tag version
         env:
           RAW_TAG: ${{ github.ref_name }}
+        shell: bash
         run: |
           VERSION="${RAW_TAG#v}"
           mkdir -p artifacts
-          dotnet pack src/MyLib/MyLib.csproj -c Release \
-            -p:ContinuousIntegrationBuild=true \
-            -p:IncludeSymbols=true \
-            -p:SymbolPackageFormat=snupkg \
-            -p:PackageVersion="$VERSION" \
-            -o artifacts
+          while IFS= read -r proj; do
+            echo "Packing: $proj  -> Version: $VERSION"
+            dotnet pack "$proj" -c Release \
+              -p:ContinuousIntegrationBuild=true \
+              -p:IncludeSymbols=true \
+              -p:SymbolPackageFormat=snupkg \
+              -p:PackageVersion="$VERSION" \
+              -o artifacts
+          done < projects.txt
 
       - name: Show artifacts
         run: ls -la artifacts
