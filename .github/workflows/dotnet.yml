@@ -24,25 +24,37 @@ jobs:
         with:
           dotnet-version: '9.0.x'
 
+      - name: Show repo tree (debug)
+        run: |
+          pwd
+          ls -la
+          echo "---- csproj list (git ls-files) ----"
+          git ls-files "*.csproj" || true
+          echo "------------------------------------"
+
       - name: Restore & Build (Release)
         run: |
           dotnet restore
           dotnet build -c Release --no-restore
 
-      - name: Detect .csproj files
+      - name: Detect packable projects
         id: detect
         shell: bash
         run: |
-          echo "Detected .csproj files:"
           mapfile -t projects < <(git ls-files "*.csproj")
-          printf ' - %s\n' "${projects[@]}"
-
           if [ ${#projects[@]} -eq 0 ]; then
-            echo "No .csproj files found. The project path might be incorrect or at a different repo level." >&2
-            exit 1
+            mapfile -t projects < <(find . -type f -name "*.csproj")
           fi
 
+          projects=( $(printf "%s\n" "${projects[@]}" | grep -viE "test|tests|webapi|api") )
+          
+          if [ ${#projects[@]} -eq 0 ]; then
+            echo "No .csproj files found." >&2
+            exit 1
+          fi
           printf '%s\n' "${projects[@]}" > projects.txt
+          echo "Found projects:"
+          cat projects.txt
 
       - name: Pack all projects (.nupkg + .snupkg) using tag version
         env:
@@ -52,7 +64,7 @@ jobs:
           VERSION="${RAW_TAG#v}"
           mkdir -p artifacts
           while IFS= read -r proj; do
-            echo "Packing: $proj  -> Version: $VERSION"
+            echo "Packing: $proj (Version=$VERSION)"
             dotnet pack "$proj" -c Release \
               -p:ContinuousIntegrationBuild=true \
               -p:IncludeSymbols=true \
