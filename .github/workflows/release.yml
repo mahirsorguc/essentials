@@ -1,0 +1,97 @@
+name: Build, Pack and Release (.nupkg) on v* tag
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-pack-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Setup .NET 9 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Show repo tree (debug)
+        run: |
+          pwd
+          ls -la
+          echo "---- csproj list (git ls-files) ----"
+          git ls-files "*.csproj" || true
+          echo "------------------------------------"
+
+      - name: Restore & Build (Release)
+        run: |
+          dotnet restore
+          dotnet build -c Release --no-restore
+
+      - name: Detect packable projects
+        id: detect
+        shell: bash
+        run: |
+          mapfile -t projects < <(git ls-files "*.csproj")
+          if [ ${#projects[@]} -eq 0 ]; then
+            mapfile -t projects < <(find . -type f -name "*.csproj")
+          fi
+          projects=( $(printf "%s\n" "${projects[@]}" | grep -viE "test|tests|webapi|api") )
+          if [ ${#projects[@]} -eq 0 ]; then
+            echo "No .csproj files found." >&2
+            exit 1
+          fi
+          printf '%s\n' "${projects[@]}" > projects.txt
+          echo "Found projects:"
+          cat projects.txt
+
+      - name: Pack all projects (.nupkg + .snupkg) using tag version
+        env:
+          RAW_TAG: ${{ github.ref_name }}
+        shell: bash
+        run: |
+          VERSION="${RAW_TAG#v}"
+          mkdir -p artifacts
+          while IFS= read -r proj; do
+            echo "Packing: $proj (Version=$VERSION)"
+            dotnet pack "$proj" -c Release \
+              -p:ContinuousIntegrationBuild=true \
+              -p:IncludeSymbols=true \
+              -p:SymbolPackageFormat=snupkg \
+              -p:PackageVersion="$VERSION" \
+              -o artifacts
+          done < projects.txt
+
+      - name: Show artifacts
+        run: ls -la artifacts
+
+      - name: Publish to NuGet.org
+        if: success()
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+        run: |
+          dotnet nuget push "artifacts/*.nupkg" \
+            --api-key "$NUGET_API_KEY" \
+            --source https://api.nuget.org/v3/index.json \
+            --skip-duplicate
+
+      - name: Create GitHub Release and upload assets
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
+          generate_release_notes: true
+          files: |
+            artifacts/**/*.nupkg
+            artifacts/**/*.snupkg
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
