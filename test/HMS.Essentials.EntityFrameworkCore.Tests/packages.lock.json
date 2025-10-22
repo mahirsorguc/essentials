@@ -109,6 +109,22 @@
         "resolved": "4.4.0",
         "contentHash": "gwJEfIGS7FhykvtZoscwXj/XwW+mJY6UbAZk+qtLKFUGWC95kfKXnj8VkxsZQnWBxJemM/q664rGLN5nf+OHZw=="
       },
+      "FluentValidation": {
+        "type": "Transitive",
+        "resolved": "12.0.0",
+        "contentHash": "8NVLxtMUXynRHJIX3Hn1ACovaqZIJASufXIIFkD0EUbcd5PmMsL1xUD5h548gCezJ5BzlITaR9CAMrGe29aWpA=="
+      },
+      "MediatR": {
+        "type": "Transitive",
+        "resolved": "13.0.0",
+        "contentHash": "gR5vSoIINsXs86we38qdIfG62f6ngxT2sSaePsakJGHJIgLUDA7b41lujGXGWxX0hWyk8suajr2VKcAYSVMtdw==",
+        "dependencies": {
+          "MediatR.Contracts": "[2.0.1, 3.0.0)",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.0",
+          "Microsoft.Extensions.Logging": "8.0.0",
+          "Microsoft.IdentityModel.JsonWebTokens": "8.0.1"
+        }
+      },
       "MediatR.Contracts": {
         "type": "Transitive",
         "resolved": "2.0.1",
@@ -327,6 +343,35 @@
         "resolved": "9.0.10",
         "contentHash": "3pl8D1O5ZwMpDkZAT2uXrhQ6NipkwEgDLMFuURiHTf72TvkoMP61QYH3Vk1yrzVHnHBdNZk3cQACz8Zc7YGNhQ=="
       },
+      "Microsoft.IdentityModel.Abstractions": {
+        "type": "Transitive",
+        "resolved": "8.0.1",
+        "contentHash": "OtlIWcyX01olfdevPKZdIPfBEvbcioDyBiE/Z2lHsopsMD7twcKtlN9kMevHmI5IIPhFpfwCIiR6qHQz1WHUIw=="
+      },
+      "Microsoft.IdentityModel.JsonWebTokens": {
+        "type": "Transitive",
+        "resolved": "8.0.1",
+        "contentHash": "s6++gF9x0rQApQzOBbSyp4jUaAlwm+DroKfL8gdOHxs83k8SJfUXhuc46rDB3rNXBQ1MVRxqKUrqFhO/M0E97g==",
+        "dependencies": {
+          "Microsoft.IdentityModel.Tokens": "8.0.1"
+        }
+      },
+      "Microsoft.IdentityModel.Logging": {
+        "type": "Transitive",
+        "resolved": "8.0.1",
+        "contentHash": "UCPF2exZqBXe7v/6sGNiM6zCQOUXXQ9+v5VTb9gPB8ZSUPnX53BxlN78v2jsbIvK9Dq4GovQxo23x8JgWvm/Qg==",
+        "dependencies": {
+          "Microsoft.IdentityModel.Abstractions": "8.0.1"
+        }
+      },
+      "Microsoft.IdentityModel.Tokens": {
+        "type": "Transitive",
+        "resolved": "8.0.1",
+        "contentHash": "kDimB6Dkd3nkW2oZPDkMkVHfQt3IDqO5gL0oa8WVy3OP4uE8Ij+8TXnqg9TOd9ufjsY3IDiGz7pCUbnfL18tjg==",
+        "dependencies": {
+          "Microsoft.IdentityModel.Logging": "8.0.1"
+        }
+      },
       "Microsoft.TestPlatform.ObjectModel": {
         "type": "Transitive",
         "resolved": "18.0.0",
@@ -478,7 +523,8 @@
         "type": "Project",
         "dependencies": {
           "HMS.Essentials.Ddd.Domain.Events": "[1.0.0, )",
-          "HMS.Essentials.Ddd.Domain.Shared": "[1.0.0, )"
+          "HMS.Essentials.Ddd.Domain.Shared": "[1.0.0, )",
+          "HMS.Essentials.MediatR": "[1.0.0, )"
         }
       },
       "hms.essentials.ddd.domain.events": {
@@ -502,8 +548,36 @@
           "Microsoft.EntityFrameworkCore.Relational": "[9.0.10, )"
         }
       },
+      "hms.essentials.fluentvalidation": {
+        "type": "Project",
+        "dependencies": {
+          "FluentValidation": "[12.0.0, )",
+          "HMS.Essentials.Core": "[1.0.0, )"
+        }
+      },
+      "hms.essentials.mediatr": {
+        "type": "Project",
+        "dependencies": {
+          "HMS.Essentials.FluentValidation": "[1.0.0, )",
+          "HMS.Essentials.MediatR.Commands": "[1.0.0, )",
+          "HMS.Essentials.MediatR.DomainEvents": "[1.0.0, )",
+          "HMS.Essentials.MediatR.Queries": "[1.0.0, )",
+          "HMS.Essentials.ObjectMapping": "[1.0.0, )",
+          "HMS.Essentials.UnitOfWork": "[1.0.0, )",
+          "MediatR": "[13.0.0, )",
+          "Microsoft.Extensions.Logging": "[9.0.10, )"
+        }
+      },
       "hms.essentials.mediatr.attributes": {
         "type": "Project"
+      },
+      "hms.essentials.mediatr.commands": {
+        "type": "Project",
+        "dependencies": {
+          "HMS.Essentials.Core": "[1.0.0, )",
+          "HMS.Essentials.MediatR.Attributes": "[1.0.0, )",
+          "MediatR.Contracts": "[2.0.1, )"
+        }
       },
       "hms.essentials.mediatr.domainevents": {
         "type": "Project",
@@ -511,6 +585,19 @@
           "HMS.Essentials.Core": "[1.0.0, )",
           "HMS.Essentials.MediatR.Attributes": "[1.0.0, )",
           "MediatR.Contracts": "[2.0.1, )"
+        }
+      },
+      "hms.essentials.mediatr.queries": {
+        "type": "Project",
+        "dependencies": {
+          "HMS.Essentials.Core": "[1.0.0, )",
+          "MediatR.Contracts": "[2.0.1, )"
+        }
+      },
+      "hms.essentials.objectmapping": {
+        "type": "Project",
+        "dependencies": {
+          "HMS.Essentials.Core": "[1.0.0, )"
         }
       },
       "hms.essentials.unitofwork": {
