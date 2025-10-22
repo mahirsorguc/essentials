@@ -11,6 +11,7 @@
     <ItemGroup>
       <ProjectReference Include="..\HMS.Essentials.Ddd.Domain.Events\HMS.Essentials.Ddd.Domain.Events.csproj" />
       <ProjectReference Include="..\HMS.Essentials.Ddd.Domain.Shared\HMS.Essentials.Ddd.Domain.Shared.csproj" />
+      <ProjectReference Include="..\HMS.Essentials.MediatR\HMS.Essentials.MediatR.csproj" />
     </ItemGroup>
 
 </Project>

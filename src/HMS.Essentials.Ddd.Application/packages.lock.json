@@ -236,7 +236,8 @@
         "type": "Project",
         "dependencies": {
           "HMS.Essentials.Ddd.Domain.Events": "[1.0.0, )",
-          "HMS.Essentials.Ddd.Domain.Shared": "[1.0.0, )"
+          "HMS.Essentials.Ddd.Domain.Shared": "[1.0.0, )",
+          "HMS.Essentials.MediatR": "[1.0.0, )"
         }
       },
       "hms.essentials.ddd.domain.events": {
