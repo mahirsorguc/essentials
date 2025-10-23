@@ -30,6 +30,8 @@ public class EssentialsMediatRModule : EssentialsModule
         context.Services.AddScoped<IMediator, Mediator>();
 
         // Register pipeline behaviors (order matters: validators should run early)
+        // ErrorHandlingBehavior is registered first to catch all exceptions from other behaviors
+        context.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ErrorHandlingBehavior<,>));
         context.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
         context.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
         context.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(PerformanceBehavior<,>));

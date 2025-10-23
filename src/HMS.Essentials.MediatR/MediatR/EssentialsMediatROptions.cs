@@ -6,4 +6,5 @@ public class EssentialsMediatROptions
     public bool UnitOfWorkEnabled { get; set; }
     public bool PerformanceLoggingEnabled { get; set; }
     public bool RequestLoggingEnabled { get; set; }
+    public bool ErrorHandlingEnabled { get; set; } = true;
 }
