@@ -8,7 +8,6 @@ namespace HMS.Essentials.Domain;
     typeof(EssentialsDomainSharedModule),
     typeof(EssentialsDomainEventsModule),
     typeof(EssentialsMediatRModule)
-    
 )]
 public class EssentialsDomainModule : EssentialsModule
 {
